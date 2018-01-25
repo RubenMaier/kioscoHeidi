@@ -3,65 +3,74 @@ const router = express.Router();
 const mongojs = require('mongojs');
 const db = mongojs('dbKioscoHeidi', ['productos']);
 
-// GET All productos
-router.get('/productos', (req, res, next) => {
+// obtener todos los productos
+router.get('/', (req, res, next) => {
     db.productos.find((err, productos) => {
       if (err) return next(err);
       res.json(productos);
     });
 });
 
-// Single producto
-router.get('/productos/:id', (req, res, next) => {
+// agregar producto
+router.post('/agregar', (req, res, next) => {
+    const producto = req.body;
+    if(!(producto.nombre+'')) {
+        res.status(400).json({
+          'error': 'Dato erroneo'
+        });
+    } else {
+        db.productos.save(producto, (err, producto) => {
+          if (err) return next(err);
+          res.json(producto);
+        });
+    }
+});
+
+// obtener un solo producto
+router.get('/editar/:id', (req, res, next) => {
     db.productos.findOne({_id: mongojs.ObjectId(req.params.id)}, (err, producto) => {
       if (err) return next(err);
       res.json(producto);
     });
 });
 
-// Add producto
-router.post('/productos', (req, res, next) => {
-    const producto = req.body;
-    if(!producto.title || !(producto.isDone + '')) {
-        res.status(400).json({
-          'error': 'Dato erroneo '
-        });
-    } else {
-        db.producto.save(producto, (err, producto) => {
-          if (err) return next(err);
-          res.json(producto);
-        });
-    }
-});
-
-// Delete producto
-router.delete('/productos/:id', (req, res, next) => {
-    db.productos.remove({_id: mongojs.ObjectId(req.params.id)}, (err, producto) => {
-      if(err){ res.send(err); }
-      res.json(producto);
-    });
-})
-
-// Update producto
-router.put('/productos/:id', (req, res, next) => {
+// actualizar producto
+router.put('/actualizar/:id', (req, res, next) => {
     const producto = req.body;
     let updateProducto = {};
     
-    if(producto.isDone) {
-      updateProducto.isDone = producto.isDone;
+    if(producto.nombre) {
+      updateProducto.nombre = producto.nombre;
     }
-    if(producto.title) {
-      updateProducto.title = producto.title;
+    if(producto.categoria) {
+      updateProducto.categoria = producto.categoria;
+    }
+    if(producto.marca) {
+      updateProducto.marca = producto.marca;
+    }
+    if(producto.precio) {
+      updateProducto.precio = producto.precio;
+    }
+    if(producto.segun) {
+      updateProducto.segun = producto.segun;
     }
     if(!updateProducto) {
       res.status(400);
-      res.json({'error': 'bad request'});
+      res.json({'error': 'consulta erronea'});
     } else {
         db.productos.update({_id: mongojs.ObjectId(req.params.id)}, updateProducto, {}, (err, producto) => {
           if (err) return next(err);
           res.json(producto);
         });
     }
+});
+
+// borrar producto
+router.delete('/borrar/:id', (req, res, next) => {
+    db.productos.remove({_id: mongojs.ObjectId(req.params.id)}, (err, producto) => {
+      if(err){ res.send(err); }
+      res.json(producto);
+    });
 });
 
 module.exports = router;
