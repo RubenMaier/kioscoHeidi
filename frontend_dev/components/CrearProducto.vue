@@ -22,7 +22,7 @@
                         <input type="text" v-model="producto.segun" placeholder="Agrega el formato en el que se vende el producto" class="form-control">
                     </div>
                     <button type="submit" class="btn btn-primary">
-                        Agregar producto
+                        Agregar
                     </button>
                     <router-link :to="{ name:'MostrarProducto' }" class="btn btn-primary">
                         Volver

@@ -27,7 +27,7 @@ router.post('/agregar', (req, res, next) => {
 });
 
 // obtener un solo producto
-router.get('/editar/:id', (req, res, next) => {
+router.get('/obtener/:id', (req, res, next) => {
     db.productos.findOne({_id: mongojs.ObjectId(req.params.id)}, (err, producto) => {
       if (err) return next(err);
       res.json(producto);

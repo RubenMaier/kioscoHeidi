@@ -19,12 +19,12 @@ const routes = [
     },
     {
       name: 'CrearProducto',
-      path: '/crear/producto',
+      path: '/producto/crear',
       component: CrearProducto
     },
     {
       name: 'EditarProducto',
-      path: '/editar/:id',
+      path: '/producto/editar/:id',
       component: EditarProducto
     }
 ];

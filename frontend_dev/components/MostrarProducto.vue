@@ -18,11 +18,15 @@
                     <td>{{producto.nombre}}</td>
                     <td>{{producto.categoria}}</td>
                     <td>{{producto.marca}}</td>
-                    <td>{{producto.precio}}</td>
+                    <td>$ {{producto.precio}}</td>
                     <td>{{producto.segun}}</td>
                     <td>
-                        <a href="#" class="btn btn-danger">Eliminar</a>
-                        <a href="#" class="btn btn-dark">Actualizar</a>
+                        <a href="#" class="btn btn-danger" v-on:click="borrarProducto(producto._id)">
+                            Eliminar
+                        </a>
+                        <router-link :to="{ name: 'EditarProducto', params: {id: producto._id} }" class="btn btn-dark">
+                            Actualizar
+                        </router-link>
                     </td>
                 </tr>
             </tbody>
@@ -47,6 +51,16 @@ export default {
                     this.productos = res.data
                 })
                 .catch(err => console.log(err));
+        },
+        borrarProducto(id) {
+            const respuesta = confirm('¿Estas seguro de eliminar este producto?');
+            if(respuesta) {
+                this.axios.delete('productos/borrar/' + id)
+                    .then(res => {
+                         this.productos.splice(id, 1)
+                    })
+                    .catch(err => console.log(err));
+            }
         }
     }
 }

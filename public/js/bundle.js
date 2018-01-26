@@ -1085,6 +1085,8 @@ module.exports = Cancel;
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["a"] = ({});
 
@@ -1093,6 +1095,10 @@ module.exports = Cancel;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+//
+//
+//
+//
 //
 //
 //
@@ -1140,6 +1146,14 @@ module.exports = Cancel;
             this.axios.get('/productos').then(res => {
                 this.productos = res.data;
             }).catch(err => console.log(err));
+        },
+        borrarProducto(id) {
+            const respuesta = confirm('¿Estas seguro de eliminar este producto?');
+            if (respuesta) {
+                this.axios.delete('productos/borrar/' + id).then(res => {
+                    this.productos.splice(id, 1);
+                }).catch(err => console.log(err));
+            }
         }
     }
 });
@@ -1179,11 +1193,11 @@ const routes = [{
   component: __WEBPACK_IMPORTED_MODULE_6__components_MostrarProducto_vue__["a" /* default */]
 }, {
   name: 'CrearProducto',
-  path: '/crear/producto',
+  path: '/producto/crear',
   component: __WEBPACK_IMPORTED_MODULE_5__components_CrearProducto_vue__["a" /* default */]
 }, {
   name: 'EditarProducto',
-  path: '/editar/:id',
+  path: '/producto/editar/:id',
   component: __WEBPACK_IMPORTED_MODULE_7__components_EditarProducto_vue__["a" /* default */]
 }];
 
@@ -12972,7 +12986,9 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("h1", [_vm._v("Kiosco Heidi")]),
+      _c("router-link", { attrs: { to: { name: "MostrarProducto" } } }, [
+        _c("h1", [_vm._v("Kiosco Heidi")])
+      ]),
       _vm._v(" "),
       _c(
         "router-link",
@@ -13128,11 +13144,51 @@ var render = function() {
             _vm._v(" "),
             _c("td", [_vm._v(_vm._s(producto.marca))]),
             _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(producto.precio))]),
+            _c("td", [_vm._v("$ " + _vm._s(producto.precio))]),
             _vm._v(" "),
             _c("td", [_vm._v(_vm._s(producto.segun))]),
             _vm._v(" "),
-            _vm._m(1, true)
+            _c(
+              "td",
+              [
+                _c(
+                  "a",
+                  {
+                    staticClass: "btn btn-danger",
+                    attrs: { href: "#" },
+                    on: {
+                      click: function($event) {
+                        _vm.borrarProducto(producto._id)
+                      }
+                    }
+                  },
+                  [
+                    _vm._v(
+                      "\n                        Eliminar\n                    "
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "router-link",
+                  {
+                    staticClass: "btn btn-dark",
+                    attrs: {
+                      to: {
+                        name: "EditarProducto",
+                        params: { id: producto._id }
+                      }
+                    }
+                  },
+                  [
+                    _vm._v(
+                      "\n                        Actualizar\n                    "
+                    )
+                  ]
+                )
+              ],
+              1
+            )
           ])
         })
       )
@@ -13159,20 +13215,6 @@ var staticRenderFns = [
         _c("th", [_vm._v("Operacion")])
       ])
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [
-      _c("a", { staticClass: "btn btn-danger", attrs: { href: "#" } }, [
-        _vm._v("Eliminar")
-      ]),
-      _vm._v(" "),
-      _c("a", { staticClass: "btn btn-dark", attrs: { href: "#" } }, [
-        _vm._v("Actualizar")
-      ])
-    ])
   }
 ]
 render._withStripped = true
@@ -13190,11 +13232,16 @@ if (false) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_EditarProducto_vue__ = __webpack_require__(45);
+/* unused harmony namespace reexport */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_3f2c3c1b_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_EditarProducto_vue__ = __webpack_require__(46);
+var disposed = false
 var normalizeComponent = __webpack_require__(2)
 /* script */
-var __vue_script__ = null
+
+
 /* template */
-var __vue_template__ = null
+
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -13204,14 +13251,30 @@ var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_EditarProducto_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_3f2c3c1b_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_EditarProducto_vue__["a" /* default */],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
 Component.options.__file = "frontend_dev/components/EditarProducto.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-3f2c3c1b", Component.options)
+  } else {
+    hotAPI.reload("data-v-3f2c3c1b", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
 
 /* harmony default export */ __webpack_exports__["a"] = (Component.exports);
 
@@ -13427,11 +13490,7 @@ var render = function() {
               _c(
                 "button",
                 { staticClass: "btn btn-primary", attrs: { type: "submit" } },
-                [
-                  _vm._v(
-                    "\n                    Agregar producto\n                "
-                  )
-                ]
+                [_vm._v("\n                    Agregar\n                ")]
               ),
               _vm._v(" "),
               _c(
@@ -13469,6 +13528,266 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-d612cf52", esExports)
+  }
+}
+
+/***/ }),
+/* 45 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    data() {
+        return {
+            producto: {}
+        };
+    },
+    created() {
+        this.obtenerProducto();
+    },
+    methods: {
+        obtenerProducto() {
+            this.axios.get('/productos/obtener/' + this.$route.params.id).then(res => {
+                this.producto = res.data;
+            }).catch(err => console.log(err));
+        },
+        actualizarProducto() {
+            this.axios.put('/productos/actualizar/' + this.$route.params.id, this.producto).then(res => document.getElementById("resultado").innerHTML = "Producto de nombre " + this.producto.nombre + " actualizado con exito!").catch(err => console.log(err));
+        }
+    }
+});
+
+/***/ }),
+/* 46 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c(
+      "form",
+      {
+        staticClass: "card",
+        on: {
+          submit: function($event) {
+            $event.preventDefault()
+            _vm.actualizarProducto($event)
+          }
+        }
+      },
+      [
+        _vm._m(0),
+        _vm._v(" "),
+        _c("div", { staticClass: "card-body" }, [
+          _c(
+            "div",
+            { staticClass: "form-group" },
+            [
+              _c("div", { staticClass: "form-group" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.producto.nombre,
+                      expression: "producto.nombre"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text", placeholder: "Agrega un nombre" },
+                  domProps: { value: _vm.producto.nombre },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.producto, "nombre", $event.target.value)
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.producto.categoria,
+                      expression: "producto.categoria"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text", placeholder: "Agrega una categoria" },
+                  domProps: { value: _vm.producto.categoria },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.producto, "categoria", $event.target.value)
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.producto.marca,
+                      expression: "producto.marca"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text", placeholder: "Agrega una marca" },
+                  domProps: { value: _vm.producto.marca },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.producto, "marca", $event.target.value)
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.producto.precio,
+                      expression: "producto.precio"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text", placeholder: "Agrega un precio" },
+                  domProps: { value: _vm.producto.precio },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.producto, "precio", $event.target.value)
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.producto.segun,
+                      expression: "producto.segun"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: {
+                    type: "text",
+                    placeholder:
+                      "Agrega el formato en el que se vende el producto"
+                  },
+                  domProps: { value: _vm.producto.segun },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.producto, "segun", $event.target.value)
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c(
+                "button",
+                { staticClass: "btn btn-primary", attrs: { type: "submit" } },
+                [_vm._v("\n                    Actualizar\n                ")]
+              ),
+              _vm._v(" "),
+              _c(
+                "router-link",
+                {
+                  staticClass: "btn btn-primary",
+                  attrs: { to: { name: "MostrarProducto" } }
+                },
+                [_vm._v("\n                    Volver\n                ")]
+              ),
+              _vm._v(" "),
+              _c("div", { attrs: { id: "resultado" } })
+            ],
+            1
+          )
+        ])
+      ]
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-title" }, [
+      _c("h1", [_vm._v("Actualizar producto")])
+    ])
+  }
+]
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-3f2c3c1b", esExports)
   }
 }
 
