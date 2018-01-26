@@ -1147,11 +1147,11 @@ module.exports = Cancel;
                 this.productos = res.data;
             }).catch(err => console.log(err));
         },
-        borrarProducto(id) {
+        borrarProducto(index, id) {
             const respuesta = confirm('¿Estas seguro de eliminar este producto?');
             if (respuesta) {
                 this.axios.delete('productos/borrar/' + id).then(res => {
-                    this.productos.splice(id, 1);
+                    this.productos.splice(index, 1);
                 }).catch(err => console.log(err));
             }
         }
@@ -13136,7 +13136,7 @@ var render = function() {
       _vm._v(" "),
       _c(
         "tbody",
-        _vm._l(_vm.productos, function(producto) {
+        _vm._l(_vm.productos, function(producto, index) {
           return _c("tr", [
             _c("td", [_vm._v(_vm._s(producto.nombre))]),
             _vm._v(" "),
@@ -13158,7 +13158,7 @@ var render = function() {
                     attrs: { href: "#" },
                     on: {
                       click: function($event) {
-                        _vm.borrarProducto(producto._id)
+                        _vm.borrarProducto(index, producto._id)
                       }
                     }
                   },
