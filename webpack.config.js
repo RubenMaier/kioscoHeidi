@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-    entry: './frontend_dev/main.js',
+    entry: './vistas/main.js',
     output: {
         path: path.join(__dirname, 'public/js'),
         filename: 'bundle.js'
