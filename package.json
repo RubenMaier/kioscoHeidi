@@ -9,23 +9,27 @@
     "auto-build": "webpack -w"
   },
   "dependencies": {
+    "bcrypt": "^1.0.3",
+    "connect-mongo": "^2.0.1",
     "cookie-parser": "~1.4.3",
     "cors": "^2.8.4",
     "express": "~4.16.2",
+    "express-session": "^1.15.6",
     "mongoose": "^5.0.1",
     "morgan": "~1.9.0"
   },
   "devDependencies": {
-    "css-loader": "^0.28.9",
-    "nodemon": "^1.14.11",
-    "vue-loader": "^13.7.0",
-    "vue": "^2.5.13",
-    "vue-axios": "^2.0.2",
-    "vue-router": "^3.0.1",
-    "vue-template-compiler": "^2.5.13",
-    "webpack": "^3.10.0",
     "axios": "^0.17.1",
     "babel-core": "^6.26.0",
-    "babel-loader": "^7.1.2"
+    "babel-loader": "^7.1.2",
+    "css-loader": "^0.28.9",
+    "nodemon": "^1.14.11",
+    "vue": "^2.5.13",
+    "vue-axios": "^2.0.2",
+    "vue-loader": "^13.7.0",
+    "vue-router": "^3.0.1",
+    "vue-session": "^1.0.0",
+    "vue-template-compiler": "^2.5.13",
+    "webpack": "^3.10.0"
   }
 }

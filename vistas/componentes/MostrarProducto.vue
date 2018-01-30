@@ -55,8 +55,9 @@ export default {
         borrarProducto(index, id) {
             const respuesta = confirm('¿Estas seguro de eliminar este producto?');
             if(respuesta) {
-                this.axios.delete('productos/borrar/' + id)
+                this.axios.delete('/productos/borrar/' + id)
                     .then(res => {
+                        console.log("estoy saliendo de esta mierda 2");
                          this.productos.splice(index, 1)
                     })
                     .catch(err => console.log(err));

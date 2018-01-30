@@ -1,10 +1,10 @@
-const express = require('express');
-
 module.exports = (server) => {
     
-    require('./database').conectarDB();
+    require('./database')(server);
 
     require('./middlewares')(server);
 
     require('./routes')(server);
+
+    require('./error')(server);
 };

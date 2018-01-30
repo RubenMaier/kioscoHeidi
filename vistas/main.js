@@ -1,33 +1,14 @@
-import Vue from 'vue';
-import VueRouter from 'vue-router';
-import VueAxios from 'vue-axios';
-import Axios from 'axios';
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+import VueAxios from 'vue-axios'
+import Axios from 'axios'
+import VueSession from 'vue-session'
 
-import App from './App.vue';
-import CrearProducto from './components/CrearProducto.vue';
-import MostrarProducto from './components/MostrarProducto.vue';
-import EditarProducto from './components/EditarProducto.vue';
+import App from './App.vue'
+import router from './rutas'
 
 Vue.use(VueRouter);
 Vue.use(VueAxios, Axios); 
+Vue.use(VueSession);
 
-const routes = [
-    {
-      name: 'MostrarProducto',
-      path: '/',
-      component: MostrarProducto
-    },
-    {
-      name: 'CrearProducto',
-      path: '/producto/crear',
-      component: CrearProducto
-    },
-    {
-      name: 'EditarProducto',
-      path: '/producto/editar/:id',
-      component: EditarProducto
-    }
-];
-
- const router = new VueRouter({ mode: 'history', routes: routes });
  new Vue(Vue.util.extend({router}, App)).$mount('#app');

@@ -1,20 +1,30 @@
 const mongoose = require("mongoose");
-mongoose.Promise = global.Promise;
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 
-var
-    localhost = "localhost",
+const
+    host = "localhost",
     port = "27017",
-    nombreDB = "dbKioscoHeidi",
-    DB = "mongodb://"+localhost+":"+port+"/"+nombreDB;
+    db = "dbKioscoHeidi",
+    url = "mongodb://"+host+":"+port+"/"+db;
 
-module.exports = {
-    localhost: localhost,
-    port: port,
-    nombreDB: nombreDB,
-    direccionDB: DB,
-    conectarDB: () => {
-        mongoose.connect(DB)
-            .then(() => console.log("DB conectada exitosamente"))
-            .catch(err => console.error(err));
-    }
+module.exports = (server) => {
+
+    mongoose.Promise = global.Promise;
+    mongoose.connect(url)
+        .then(() => console.log("DB conectada exitosamente"))
+        .catch(err => console.error(err));
+
+    const conexion = mongoose.connection;
+    conexion.on('error', console.error.bind(console, 'error en conexion:'));
+    conexion.once('open', function () {} );
+
+    server.use(session({
+        secret: 'work hard',
+        resave: true,
+        saveUninitialized: false,
+        store: new MongoStore({
+          mongooseConnection: conexion
+        })
+    }));    
 }
