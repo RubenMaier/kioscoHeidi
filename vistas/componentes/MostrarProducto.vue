@@ -2,8 +2,8 @@
     <div>
         <h3>Lista de productos</h3>
 
-        <table class="table table-hover table-bordered">
-            <thead>
+        <table class="table">
+            <thead class="thead-inverse">
                 <tr>
                     <th>Producto</th>
                     <th>Categoria</th>
@@ -24,7 +24,7 @@
                         <a href="#" class="btn btn-danger" v-on:click="borrarProducto(index, producto._id)">
                             Eliminar
                         </a>
-                        <router-link :to="{ name: 'EditarProducto', params: {id: producto._id} }" class="btn btn-dark">
+                        <router-link :to="{ name: 'EditarProducto', params: {id: producto._id} }" class="btn btn-success">
                             Actualizar
                         </router-link>
                     </td>
@@ -46,6 +46,7 @@ export default {
     },
     methods: {
         obtenerProductos() {
+            if(!this.$session.exists()) return this.$router.push({name: 'ConectarUsuario'});
             this.axios.get('/productos')
                 .then(res => {
                     this.productos = res.data

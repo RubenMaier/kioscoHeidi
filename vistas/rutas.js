@@ -37,6 +37,10 @@ const routes = [
       name: 'DesconectarUsuario',
       path: '/usuario/desconectar',
       component: DesconectarUsuario
+    },
+    {
+      path: '*',
+      redirect: 'MostrarProducto'
     }
 ];
 

@@ -14,16 +14,18 @@ module.exports = {
     validarAutorizacion: validarAutorizacion,
 
     conectar: (req, res, next) => {
-        const autorizacion = validarAutorizacion(req.session.userId);
         usuarios.authenticate(req.body.username, req.body.password, (error, usuario) => {
             if (!usuario || error) {
+                res.json({
+                    'resultado': '401'
+                });
                 var err = new Error('Password o username incorrectos');
                 err.status = 401;
                 return next(err);
             } else {
                 req.session.userId = usuario._id;
                 res.status(200).json({
-                    'resultado': 'el usuario fue logueado'
+                    'resultado': '200'
                 })
             }
         })
@@ -43,10 +45,7 @@ module.exports = {
             .then(usuario => {
                 req.session.userId = usuario._id;
                 res.redirect('/productos/ver');
-            })
-            .catch(err => {
-                next(err);
-            });  
+            });
     },
 
     desconectar: (req, res, next) => {
@@ -69,9 +68,19 @@ module.exports = {
         });
     },
 
-    obtener: (req, res, next) => {
-        const id = req.params.id;
-        usuarios.findById(id)
+    usernameObtener: (req, res, next) => {
+        const username = req.params.username;
+        usuarios.findOne({username: username})
+            .then(usuario => {
+                if(usuario) res.status(200).json(usuario);
+                else res.status(404).json(usuario);
+            })
+            .catch(err => res.status(500).json(err));
+    },
+
+    emailObtener: (req, res, next) => {
+        const email = req.params.email;
+        usuarios.findOne({email: email})
             .then(usuario => {
                 if(usuario) res.status(200).json(usuario);
                 else res.status(404).json(usuario);
@@ -80,17 +89,16 @@ module.exports = {
     },
 
     actualizar: (req, res, next) => {
-        const id = req.params.id;
+        const username = req.params.username;
         const usuarioUpdate = {
-            id:         id,
-            username:   req.body.username,
+            username:   username,
             password:   req.body.password,
             nombre:     req.body.nombre,
             apellido:   req.body.apellido,
             email:      req.body.email,
             rol:        req.body.rol
         }
-        usuarios.update( { _id: id }, { $set: usuarioUpdate } )
+        usuarios.update( { username: username }, { $set: usuarioUpdate } )
             .then(usuario => res.status(200).json({
                 'resultado': 'el usuario fue actualizado correctamente'
             }))

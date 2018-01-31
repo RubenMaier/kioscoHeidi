@@ -3781,12 +3781,19 @@ module.exports = Cancel;
 /* harmony default export */ __webpack_exports__["a"] = ({
     data() {
         return {
-            producto: {}
+            producto: {},
+            resultado: null,
+            alerta: false,
+            alertaClass: "alert alert-warning"
         };
     },
     methods: {
         agregarProducto() {
-            this.axios.post('/productos/agregar', this.producto).then(res => document.getElementById("resultado").innerHTML = "Producto de nombre " + this.producto.nombre + " agregado con exito!").catch(err => console.log(err));
+            this.axios.post('/productos/agregar', this.producto).then(res => {
+                this.alerta = true;
+                this.alertaClass = "alert alert-success";
+                this.resultado = "Producto de nombre " + this.producto.nombre + " agregado con exito!";
+            }).catch(err => console.log(err));
         }
     }
 });
@@ -3844,6 +3851,7 @@ module.exports = Cancel;
     },
     methods: {
         obtenerProductos() {
+            if (!this.$session.exists()) return this.$router.push({ name: 'ConectarUsuario' });
             this.axios.get('/productos').then(res => {
                 this.productos = res.data;
             }).catch(err => console.log(err));
@@ -3905,7 +3913,10 @@ module.exports = Cancel;
 /* harmony default export */ __webpack_exports__["a"] = ({
     data() {
         return {
-            producto: {}
+            producto: {},
+            resultado: null,
+            alerta: false,
+            alertaClass: "alert alert-warning"
         };
     },
     created() {
@@ -3918,7 +3929,11 @@ module.exports = Cancel;
             }).catch(err => console.log(err));
         },
         actualizarProducto() {
-            this.axios.put('/productos/actualizar/' + this.$route.params.id, this.producto).then(res => document.getElementById("resultado").innerHTML = "Producto de nombre " + this.producto.nombre + " actualizado con exito!").catch(err => console.log(err));
+            this.axios.put('/productos/actualizar/' + this.$route.params.id, this.producto).then(res => {
+                this.alerta = true;
+                this.alertaClass = "alert alert-success";
+                this.resultado = "Producto de nombre " + this.producto.nombre + " actualizado con exito!";
+            }).catch(err => console.log(err));
         }
     }
 });
@@ -3948,17 +3963,56 @@ module.exports = Cancel;
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     data() {
         return {
-            usuario: {}
+            usuarioControl: null,
+            usuario: {},
+            resultado: null,
+            alerta: false
         };
     },
+    created() {
+        this.validarConexion();
+    },
     methods: {
+        validarConexion() {
+            if (this.$session.exists()) this.$router.push({ name: 'MostrarProducto' });
+        },
         registrarUsuario() {
+            this.alerta = true;
+            if (!this.usuario.username) return this.resultado = "Ingrese un username";
+            this.axios.get('/usuarios/obtener/username/' + this.usuario.username).then(res => {
+                if (this.usuario.username === res.data.username) return this.resultado = "El username ya existe en la base de datos";
+            });
+            if (!this.usuario.password) return this.resultado = "Ingrese un password";
+            if (!this.usuario.email) return this.resultado = "Ingrese un email";
+            this.axios.get('/usuarios/obtener/email/' + this.usuario.email).then(res => {
+                if (this.usuario.email === res.data.email) return this.resultado = "El email ya existe en la base de datos";
+            });
+            if (!this.usuario.nombre) return this.resultado = "Ingrese un nombre";
+            if (!this.usuario.apellido) return this.resultado = "Ingrese un apellido";
+            if (!this.usuario.rol) return this.resultado = "Ingrese un rol";
             this.axios.post('/usuarios/registrar', this.usuario).then(res => {
-                if (res.status != 200) return;
                 this.$session.start();
                 this.$router.push({ name: 'MostrarProducto' });
             }).catch(err => console.log(err));
@@ -3987,11 +4041,21 @@ module.exports = Cancel;
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     data() {
         return {
-            usuario: {}
+            usuario: {},
+            resultado: null,
+            alerta: false
         };
     },
     created() {
@@ -4002,8 +4066,11 @@ module.exports = Cancel;
             if (this.$session.exists()) this.$router.push({ name: 'MostrarProducto' });
         },
         conectarUsuario() {
+            this.alerta = true;
+            if (!this.usuario.username) return this.resultado = "Ingrese un username";
+            if (!this.usuario.password) return this.resultado = "Ingrese un password";
             this.axios.post('/usuarios/conectar', this.usuario).then(res => {
-                if (res.status != 200) return;
+                if (res.data.resultado == "401") return this.resultado = "La password o el username es incorrecto";
                 this.$session.start();
                 this.$router.push({ name: 'MostrarProducto' });
             }).catch(err => console.log(err));
@@ -13479,6 +13546,9 @@ const routes = [{
   name: 'DesconectarUsuario',
   path: '/usuario/desconectar',
   component: __WEBPACK_IMPORTED_MODULE_6__componentes_DesconectarUsuario_vue__["a" /* default */]
+}, {
+  path: '*',
+  redirect: 'MostrarProducto'
 }];
 
 /* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({ mode: 'history', routes: routes }));
@@ -13544,172 +13614,187 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c(
-      "form",
-      {
-        staticClass: "card",
-        on: {
-          submit: function($event) {
-            $event.preventDefault()
-            _vm.agregarProducto($event)
-          }
-        }
-      },
-      [
-        _vm._m(0),
-        _vm._v(" "),
-        _c("div", { staticClass: "card-body" }, [
-          _c(
-            "div",
-            { staticClass: "form-group" },
-            [
-              _c("div", { staticClass: "form-group" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.producto.nombre,
-                      expression: "producto.nombre"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { type: "text", placeholder: "Agrega un nombre" },
-                  domProps: { value: _vm.producto.nombre },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.producto, "nombre", $event.target.value)
-                    }
-                  }
-                })
+  return _c("div", { staticClass: "card" }, [
+    _c("div", { staticClass: "card-block" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c("div", { staticClass: "card-body" }, [
+        _c(
+          "form",
+          {
+            staticClass: "form-group",
+            on: {
+              submit: function($event) {
+                $event.preventDefault()
+                _vm.agregarProducto($event)
+              }
+            }
+          },
+          [
+            _c("div", { staticClass: "input-group" }, [
+              _c("span", { staticClass: "input-group-addon" }, [
+                _vm._v("Producto")
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "form-group" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.producto.categoria,
-                      expression: "producto.categoria"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { type: "text", placeholder: "Agrega una categoria" },
-                  domProps: { value: _vm.producto.categoria },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.producto, "categoria", $event.target.value)
-                    }
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.producto.nombre,
+                    expression: "producto.nombre"
                   }
-                })
+                ],
+                staticClass: "form-control",
+                attrs: { type: "text", placeholder: "Agrega un nombre" },
+                domProps: { value: _vm.producto.nombre },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.producto, "nombre", $event.target.value)
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "input-group" }, [
+              _c("span", { staticClass: "input-group-addon" }, [
+                _vm._v("Categoria")
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "form-group" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.producto.marca,
-                      expression: "producto.marca"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { type: "text", placeholder: "Agrega una marca" },
-                  domProps: { value: _vm.producto.marca },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.producto, "marca", $event.target.value)
-                    }
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.producto.categoria,
+                    expression: "producto.categoria"
                   }
-                })
+                ],
+                staticClass: "form-control",
+                attrs: { type: "text", placeholder: "Agrega una categoria" },
+                domProps: { value: _vm.producto.categoria },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.producto, "categoria", $event.target.value)
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "input-group" }, [
+              _c("span", { staticClass: "input-group-addon" }, [
+                _vm._v("Marca")
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "form-group" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.producto.precio,
-                      expression: "producto.precio"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { type: "text", placeholder: "Agrega un precio" },
-                  domProps: { value: _vm.producto.precio },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.producto, "precio", $event.target.value)
-                    }
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.producto.marca,
+                    expression: "producto.marca"
                   }
-                })
+                ],
+                staticClass: "form-control",
+                attrs: { type: "text", placeholder: "Agrega una marca" },
+                domProps: { value: _vm.producto.marca },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.producto, "marca", $event.target.value)
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "input-group" }, [
+              _c("span", { staticClass: "input-group-addon" }, [
+                _vm._v("Precio")
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "form-group" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.producto.segun,
-                      expression: "producto.segun"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: {
-                    type: "text",
-                    placeholder:
-                      "Agrega el formato en el que se vende el producto"
-                  },
-                  domProps: { value: _vm.producto.segun },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.producto, "segun", $event.target.value)
-                    }
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.producto.precio,
+                    expression: "producto.precio"
                   }
-                })
+                ],
+                staticClass: "form-control",
+                attrs: { type: "text", placeholder: "Agrega un precio" },
+                domProps: { value: _vm.producto.precio },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.producto, "precio", $event.target.value)
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "input-group" }, [
+              _c("span", { staticClass: "input-group-addon" }, [
+                _vm._v("Segun")
               ]),
               _vm._v(" "),
-              _c(
-                "button",
-                { staticClass: "btn btn-primary", attrs: { type: "submit" } },
-                [_vm._v("\n                    Agregar\n                ")]
-              ),
-              _vm._v(" "),
-              _c(
-                "router-link",
-                {
-                  staticClass: "btn btn-primary",
-                  attrs: { to: { name: "MostrarProducto" } }
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.producto.segun,
+                    expression: "producto.segun"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: {
+                  type: "text",
+                  placeholder:
+                    "Agrega el formato en el que se vende el producto"
                 },
-                [_vm._v("\n                    Volver\n                ")]
-              ),
-              _vm._v(" "),
-              _c("div", { attrs: { id: "resultado" } })
-            ],
-            1
-          )
-        ])
-      ]
-    )
+                domProps: { value: _vm.producto.segun },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.producto, "segun", $event.target.value)
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-lg btn-primary btn-block",
+                attrs: { type: "submit" }
+              },
+              [_vm._v("Actualizar")]
+            ),
+            _vm._v(" "),
+            this.alerta
+              ? _c(
+                  "div",
+                  { class: [_vm.alertaClass], attrs: { role: "alert" } },
+                  [_vm._v(_vm._s(this.resultado))]
+                )
+              : _vm._e()
+          ]
+        )
+      ])
+    ])
   ])
 }
 var staticRenderFns = [
@@ -13718,7 +13803,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "card-title" }, [
-      _c("h1", [_vm._v("Agregar un producto")])
+      _c("h1", [_vm._v("Agregar producto")])
     ])
   }
 ]
@@ -13796,7 +13881,7 @@ var render = function() {
   return _c("div", [
     _c("h3", [_vm._v("Lista de productos")]),
     _vm._v(" "),
-    _c("table", { staticClass: "table table-hover table-bordered" }, [
+    _c("table", { staticClass: "table" }, [
       _vm._m(0),
       _vm._v(" "),
       _c(
@@ -13837,7 +13922,7 @@ var render = function() {
                 _c(
                   "router-link",
                   {
-                    staticClass: "btn btn-dark",
+                    staticClass: "btn btn-success",
                     attrs: {
                       to: {
                         name: "EditarProducto",
@@ -13865,7 +13950,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("thead", [
+    return _c("thead", { staticClass: "thead-inverse" }, [
       _c("tr", [
         _c("th", [_vm._v("Producto")]),
         _vm._v(" "),
@@ -13953,172 +14038,187 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c(
-      "form",
-      {
-        staticClass: "card",
-        on: {
-          submit: function($event) {
-            $event.preventDefault()
-            _vm.actualizarProducto($event)
-          }
-        }
-      },
-      [
-        _vm._m(0),
-        _vm._v(" "),
-        _c("div", { staticClass: "card-body" }, [
-          _c(
-            "div",
-            { staticClass: "form-group" },
-            [
-              _c("div", { staticClass: "form-group" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.producto.nombre,
-                      expression: "producto.nombre"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { type: "text", placeholder: "Agrega un nombre" },
-                  domProps: { value: _vm.producto.nombre },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.producto, "nombre", $event.target.value)
-                    }
-                  }
-                })
+  return _c("div", { staticClass: "card" }, [
+    _c("div", { staticClass: "card-block" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c("div", { staticClass: "card-body" }, [
+        _c(
+          "form",
+          {
+            staticClass: "form-group",
+            on: {
+              submit: function($event) {
+                $event.preventDefault()
+                _vm.actualizarProducto($event)
+              }
+            }
+          },
+          [
+            _c("div", { staticClass: "input-group" }, [
+              _c("span", { staticClass: "input-group-addon" }, [
+                _vm._v("Producto")
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "form-group" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.producto.categoria,
-                      expression: "producto.categoria"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { type: "text", placeholder: "Agrega una categoria" },
-                  domProps: { value: _vm.producto.categoria },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.producto, "categoria", $event.target.value)
-                    }
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.producto.nombre,
+                    expression: "producto.nombre"
                   }
-                })
+                ],
+                staticClass: "form-control",
+                attrs: { type: "text", placeholder: "Agrega un nombre" },
+                domProps: { value: _vm.producto.nombre },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.producto, "nombre", $event.target.value)
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "input-group" }, [
+              _c("span", { staticClass: "input-group-addon" }, [
+                _vm._v("Categoria")
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "form-group" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.producto.marca,
-                      expression: "producto.marca"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { type: "text", placeholder: "Agrega una marca" },
-                  domProps: { value: _vm.producto.marca },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.producto, "marca", $event.target.value)
-                    }
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.producto.categoria,
+                    expression: "producto.categoria"
                   }
-                })
+                ],
+                staticClass: "form-control",
+                attrs: { type: "text", placeholder: "Agrega una categoria" },
+                domProps: { value: _vm.producto.categoria },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.producto, "categoria", $event.target.value)
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "input-group" }, [
+              _c("span", { staticClass: "input-group-addon" }, [
+                _vm._v("Marca")
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "form-group" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.producto.precio,
-                      expression: "producto.precio"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: { type: "text", placeholder: "Agrega un precio" },
-                  domProps: { value: _vm.producto.precio },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.producto, "precio", $event.target.value)
-                    }
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.producto.marca,
+                    expression: "producto.marca"
                   }
-                })
+                ],
+                staticClass: "form-control",
+                attrs: { type: "text", placeholder: "Agrega una marca" },
+                domProps: { value: _vm.producto.marca },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.producto, "marca", $event.target.value)
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "input-group" }, [
+              _c("span", { staticClass: "input-group-addon" }, [
+                _vm._v("Precio")
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "form-group" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.producto.segun,
-                      expression: "producto.segun"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: {
-                    type: "text",
-                    placeholder:
-                      "Agrega el formato en el que se vende el producto"
-                  },
-                  domProps: { value: _vm.producto.segun },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.producto, "segun", $event.target.value)
-                    }
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.producto.precio,
+                    expression: "producto.precio"
                   }
-                })
+                ],
+                staticClass: "form-control",
+                attrs: { type: "text", placeholder: "Agrega un precio" },
+                domProps: { value: _vm.producto.precio },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.producto, "precio", $event.target.value)
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "input-group" }, [
+              _c("span", { staticClass: "input-group-addon" }, [
+                _vm._v("Segun")
               ]),
               _vm._v(" "),
-              _c(
-                "button",
-                { staticClass: "btn btn-primary", attrs: { type: "submit" } },
-                [_vm._v("\n                    Actualizar\n                ")]
-              ),
-              _vm._v(" "),
-              _c(
-                "router-link",
-                {
-                  staticClass: "btn btn-primary",
-                  attrs: { to: { name: "MostrarProducto" } }
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.producto.segun,
+                    expression: "producto.segun"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: {
+                  type: "text",
+                  placeholder:
+                    "Agrega el formato en el que se vende el producto"
                 },
-                [_vm._v("\n                    Volver\n                ")]
-              ),
-              _vm._v(" "),
-              _c("div", { attrs: { id: "resultado" } })
-            ],
-            1
-          )
-        ])
-      ]
-    )
+                domProps: { value: _vm.producto.segun },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.producto, "segun", $event.target.value)
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-lg btn-primary btn-block",
+                attrs: { type: "submit" }
+              },
+              [_vm._v("Actualizar")]
+            ),
+            _vm._v(" "),
+            this.alerta
+              ? _c(
+                  "div",
+                  { class: [_vm.alertaClass], attrs: { role: "alert" } },
+                  [_vm._v(_vm._s(this.resultado))]
+                )
+              : _vm._e()
+          ]
+        )
+      ])
+    ])
   ])
 }
 var staticRenderFns = [
@@ -14202,155 +14302,207 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("div", { staticClass: "card" }, [
+  return _c("div", { staticClass: "card" }, [
+    _c("div", { staticClass: "card-block" }, [
       _c("h1", { staticClass: "card-title" }, [_vm._v("Registro de usuario")]),
       _vm._v(" "),
       _c("div", { staticClass: "card-body" }, [
-        _c("div", { staticClass: "form-group" }, [
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.usuario.username,
-                expression: "usuario.username"
-              }
-            ],
-            staticClass: "form-control",
-            attrs: { type: "text", placeholder: "Username" },
-            domProps: { value: _vm.usuario.username },
+        _c(
+          "form",
+          {
+            staticClass: "form-group",
             on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.$set(_vm.usuario, "username", $event.target.value)
+              submit: function($event) {
+                $event.preventDefault()
+                _vm.registrarUsuario($event)
               }
             }
-          }),
-          _vm._v(" "),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.usuario.password,
-                expression: "usuario.password"
-              }
-            ],
-            staticClass: "form-control",
-            attrs: { type: "password", placeholder: "Password" },
-            domProps: { value: _vm.usuario.password },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
+          },
+          [
+            _c("div", { staticClass: "input-group" }, [
+              _c("span", { staticClass: "input-group-addon" }, [
+                _vm._v("Username")
+              ]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.usuario.username,
+                    expression: "usuario.username"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { type: "text", placeholder: "Username..." },
+                domProps: { value: _vm.usuario.username },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.usuario, "username", $event.target.value)
+                  }
                 }
-                _vm.$set(_vm.usuario, "password", $event.target.value)
-              }
-            }
-          }),
-          _vm._v(" "),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.usuario.email,
-                expression: "usuario.email"
-              }
-            ],
-            staticClass: "form-control",
-            attrs: { type: "text", placeholder: "Email" },
-            domProps: { value: _vm.usuario.email },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "input-group" }, [
+              _c("span", { staticClass: "input-group-addon" }, [
+                _vm._v("Password")
+              ]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.usuario.password,
+                    expression: "usuario.password"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { type: "password", placeholder: "Password..." },
+                domProps: { value: _vm.usuario.password },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.usuario, "password", $event.target.value)
+                  }
                 }
-                _vm.$set(_vm.usuario, "email", $event.target.value)
-              }
-            }
-          }),
-          _vm._v(" "),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.usuario.nombre,
-                expression: "usuario.nombre"
-              }
-            ],
-            staticClass: "form-control",
-            attrs: { type: "text", placeholder: "Nombre" },
-            domProps: { value: _vm.usuario.nombre },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "input-group" }, [
+              _c("span", { staticClass: "input-group-addon" }, [
+                _vm._v("Email")
+              ]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.usuario.email,
+                    expression: "usuario.email"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { type: "text", placeholder: "Email..." },
+                domProps: { value: _vm.usuario.email },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.usuario, "email", $event.target.value)
+                  }
                 }
-                _vm.$set(_vm.usuario, "nombre", $event.target.value)
-              }
-            }
-          }),
-          _vm._v(" "),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.usuario.apellido,
-                expression: "usuario.apellido"
-              }
-            ],
-            staticClass: "form-control",
-            attrs: { type: "text", placeholder: "Apellido" },
-            domProps: { value: _vm.usuario.apellido },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "input-group" }, [
+              _c("span", { staticClass: "input-group-addon" }, [
+                _vm._v("Nombre")
+              ]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.usuario.nombre,
+                    expression: "usuario.nombre"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { type: "text", placeholder: "Nombre..." },
+                domProps: { value: _vm.usuario.nombre },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.usuario, "nombre", $event.target.value)
+                  }
                 }
-                _vm.$set(_vm.usuario, "apellido", $event.target.value)
-              }
-            }
-          }),
-          _vm._v(" "),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.usuario.rol,
-                expression: "usuario.rol"
-              }
-            ],
-            staticClass: "form-control",
-            attrs: { type: "text", placeholder: "Rol" },
-            domProps: { value: _vm.usuario.rol },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "input-group" }, [
+              _c("span", { staticClass: "input-group-addon" }, [
+                _vm._v("Apellido")
+              ]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.usuario.apellido,
+                    expression: "usuario.apellido"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { type: "text", placeholder: "Apellido.." },
+                domProps: { value: _vm.usuario.apellido },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.usuario, "apellido", $event.target.value)
+                  }
                 }
-                _vm.$set(_vm.usuario, "rol", $event.target.value)
-              }
-            }
-          }),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-lg btn-primary btn-block",
-              on: { click: _vm.registrarUsuario }
-            },
-            [_vm._v("Registrar")]
-          ),
-          _vm._v(" "),
-          _c("span", { staticClass: "clearfix" })
-        ])
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "input-group" }, [
+              _c("span", { staticClass: "input-group-addon" }, [_vm._v("Rol")]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.usuario.rol,
+                    expression: "usuario.rol"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { type: "text", placeholder: "Rol..." },
+                domProps: { value: _vm.usuario.rol },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.usuario, "rol", $event.target.value)
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-lg btn-primary btn-block",
+                attrs: { type: "submit" }
+              },
+              [_vm._v("Registrar")]
+            )
+          ]
+        ),
+        _vm._v(" "),
+        this.alerta
+          ? _c(
+              "div",
+              { staticClass: "alert alert-warning", attrs: { role: "alert" } },
+              [_vm._v(_vm._s(_vm.resultado))]
+            )
+          : _vm._e()
       ])
     ])
   ])
@@ -14427,67 +14579,103 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("div", { staticClass: " card" }, [
+  return _c("div", { staticClass: "card" }, [
+    _c("div", { staticClass: "card-block" }, [
       _c("h1", { staticClass: "card-title" }, [_vm._v("Inicio de Sesion")]),
       _vm._v(" "),
       _c("div", { staticClass: "card-body" }, [
-        _c("div", { staticClass: "form-group" }, [
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.usuario.username,
-                expression: "usuario.username"
-              }
-            ],
-            staticClass: "form-control",
-            attrs: { type: "text", placeholder: "Username" },
-            domProps: { value: _vm.usuario.username },
+        _c(
+          "form",
+          {
+            staticClass: "form-group",
             on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.$set(_vm.usuario, "username", $event.target.value)
+              submit: function($event) {
+                $event.preventDefault()
+                _vm.conectarUsuario($event)
               }
             }
-          }),
-          _vm._v(" "),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.usuario.password,
-                expression: "usuario.password"
-              }
-            ],
-            staticClass: "form-control",
-            attrs: { type: "password", placeholder: "Password" },
-            domProps: { value: _vm.usuario.password },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
+          },
+          [
+            _c("div", { staticClass: "input-group" }, [
+              _c("span", { staticClass: "input-group-addon" }, [
+                _vm._v("Username")
+              ]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.usuario.username,
+                    expression: "usuario.username"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { type: "text", placeholder: "Username..." },
+                domProps: { value: _vm.usuario.username },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.usuario, "username", $event.target.value)
+                  }
                 }
-                _vm.$set(_vm.usuario, "password", $event.target.value)
-              }
-            }
-          }),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-lg btn-primary btn-block",
-              on: { click: _vm.conectarUsuario }
-            },
-            [_vm._v("Conectar")]
-          ),
-          _vm._v(" "),
-          _c("span", { staticClass: "clearfix" })
-        ])
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "input-group" }, [
+              _c("span", { staticClass: "input-group-addon" }, [
+                _vm._v("Password")
+              ]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.usuario.password,
+                    expression: "usuario.password"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { type: "password", placeholder: "Password..." },
+                domProps: { value: _vm.usuario.password },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.usuario, "password", $event.target.value)
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-primary btn-lg btn-block",
+                attrs: { type: "submit" }
+              },
+              [_vm._v("Conectar")]
+            )
+          ]
+        ),
+        _vm._v(" "),
+        this.alerta
+          ? _c(
+              "div",
+              { staticClass: "alert alert-warning", attrs: { role: "alert" } },
+              [
+                _vm._v(
+                  "\n                " +
+                    _vm._s(_vm.resultado) +
+                    "\n            "
+                )
+              ]
+            )
+          : _vm._e()
       ])
     ])
   ])

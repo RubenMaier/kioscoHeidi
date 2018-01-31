@@ -1,36 +1,36 @@
-<template lang="html">
-    <div>
-        <form v-on:submit.prevent="agregarProducto" class="card">
+ <template lang="html">
+    <div class="card">
+        <div class="card-block">
             <div class="card-title">
-                <h1>Agregar un producto</h1>
+                <h1>Agregar producto</h1>
             </div>
             <div class="card-body">
-                <div class="form-group">
-                    <div class="form-group">
+                <form v-on:submit.prevent="agregarProducto" class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon">Producto</span>
                         <input type="text" v-model="producto.nombre" placeholder="Agrega un nombre" class="form-control">
                     </div>
-                    <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon">Categoria</span>
                         <input type="text" v-model="producto.categoria" placeholder="Agrega una categoria" class="form-control">
                     </div>
-                    <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon">Marca</span>
                         <input type="text" v-model="producto.marca" placeholder="Agrega una marca" class="form-control">
                     </div> 
-                    <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon">Precio</span>
                         <input type="text" v-model="producto.precio" placeholder="Agrega un precio" class="form-control">
                     </div>
-                    <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon">Segun</span>
                         <input type="text" v-model="producto.segun" placeholder="Agrega el formato en el que se vende el producto" class="form-control">
                     </div>
-                    <button type="submit" class="btn btn-primary">
-                        Agregar
-                    </button>
-                    <router-link :to="{ name:'MostrarProducto' }" class="btn btn-primary">
-                        Volver
-                    </router-link>
-                    <div id="resultado"></div>
-                </div>
+                    <button type="submit" class="btn btn-lg btn-primary btn-block">Actualizar</button>
+                    <div v-if="this.alerta" v-bind:class="[alertaClass]" role="alert">{{this.resultado}}</div>
+                </form>
             </div>
-        </form>
+        </div>
     </div>
 </template>
 
@@ -38,13 +38,19 @@
 export default {
     data() {
         return {
-            producto: {}
+            producto: {},
+            resultado: null,
+            alerta: false,
+            alertaClass: "alert alert-warning"
         }
     },
     methods: {
         agregarProducto() {
              this.axios.post('/productos/agregar', this.producto)
-                .then(res => document.getElementById("resultado").innerHTML = "Producto de nombre " + this.producto.nombre + " agregado con exito!")
+                .then(res => {
+                    this.alerta = true;
+                    this.alertaClass = "alert alert-success";
+                    this.resultado = "Producto de nombre " + this.producto.nombre + " agregado con exito!"})
                 .catch(err => console.log(err));
         }
     }
