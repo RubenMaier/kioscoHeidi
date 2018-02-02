@@ -1,35 +1,32 @@
  <template lang="html">
     <div class="card">
-        <div class="card-block">
-            <div class="card-title">
-                <h1>Agregar producto</h1>
-            </div>
-            <div class="card-body">
-                <form v-on:submit.prevent="agregarProducto" class="form-group">
-                    <div class="input-group">
-                        <span class="input-group-addon">Producto</span>
-                        <input type="text" v-model="producto.nombre" placeholder="Agrega un nombre" class="form-control">
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon">Categoria</span>
-                        <input type="text" v-model="producto.categoria" placeholder="Agrega una categoria" class="form-control">
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon">Marca</span>
-                        <input type="text" v-model="producto.marca" placeholder="Agrega una marca" class="form-control">
-                    </div> 
-                    <div class="input-group">
-                        <span class="input-group-addon">Precio</span>
-                        <input type="text" v-model="producto.precio" placeholder="Agrega un precio" class="form-control">
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon">Segun</span>
-                        <input type="text" v-model="producto.segun" placeholder="Agrega el formato en el que se vende el producto" class="form-control">
-                    </div>
-                    <button type="submit" class="btn btn-lg btn-primary btn-block">Actualizar</button>
-                    <div v-if="this.alerta" v-bind:class="[alertaClass]" role="alert">{{this.resultado}}</div>
-                </form>
-            </div>
+        <h3 class="card-header">Agregar producto</h3>
+        
+        <div class="card-body">
+            <form v-on:submit.prevent="agregarProducto" class="form-group">
+                <div class="input-group">
+                    <span class="input-group-text">Producto</span>
+                    <input type="text" v-model="producto.nombre" placeholder="Agrega un nombre" class="form-control">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-text">Categoria</span>
+                    <input type="text" v-model="producto.categoria" placeholder="Agrega una categoria" class="form-control">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-text">Marca</span>
+                    <input type="text" v-model="producto.marca" placeholder="Agrega una marca" class="form-control">
+                </div> 
+                <div class="input-group">
+                    <span class="input-group-text">Precio</span>
+                    <input type="text" v-model="producto.precio" placeholder="Agrega un precio" class="form-control">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-text">Segun</span>
+                    <input type="text" v-model="producto.segun" placeholder="Agrega el formato en el que se vende el producto" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-lg btn-primary btn-block">Actualizar</button>
+                <div v-if="this.alerta" v-bind:class="[alertaClass]" role="alert">{{this.resultado}}</div>
+            </form>
         </div>
     </div>
 </template>

@@ -1,37 +1,35 @@
  <template lang="html">
     <div class="card">
-        <div class="card-block">
-            <h1 class="card-title">Registro de usuario</h1>
-            <div class="card-body">
-                <form v-on:submit.prevent="registrarUsuario" class="form-group">
-                    <div class="input-group">
-                        <span class="input-group-addon">Username</span>
-                        <input type="text" v-model="usuario.username" class="form-control" placeholder="Username...">
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon">Password</span>
-                        <input type="password" v-model="usuario.password" class="form-control" placeholder="Password...">
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon">Email</span>
-                        <input type="text" v-model="usuario.email" class="form-control" placeholder="Email...">
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon">Nombre</span>
-                        <input type="text" v-model="usuario.nombre" class="form-control" placeholder="Nombre...">
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon">Apellido</span>
-                        <input type="text" v-model="usuario.apellido" class="form-control" placeholder="Apellido..">
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon">Rol</span>
-                        <input type="text" v-model="usuario.rol" class="form-control" placeholder="Rol...">
-                    </div>
-                    <button type="submit" class="btn btn-lg btn-primary btn-block">Registrar</button>
-                </form>
-                <div v-if="this.alerta" class="alert alert-warning" role="alert">{{ resultado }}</div>
-            </div>
+        <h3 class="card-header">Registro de usuario</h3>
+        <div class="card-body">
+            <form v-on:submit.prevent="registrarUsuario" class="form-group">
+                <div class="input-group">
+                    <span class="input-group-text">Username</span>
+                    <input type="text" v-model="usuario.username" class="form-control" placeholder="Username...">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-text">Password</span>
+                    <input type="password" v-model="usuario.password" class="form-control" placeholder="Password...">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-text">Email</span>
+                    <input type="text" v-model="usuario.email" class="form-control" placeholder="Email...">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-text">Nombre</span>
+                    <input type="text" v-model="usuario.nombre" class="form-control" placeholder="Nombre...">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-text">Apellido</span>
+                    <input type="text" v-model="usuario.apellido" class="form-control" placeholder="Apellido..">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-text">Rol</span>
+                    <input type="text" v-model="usuario.rol" class="form-control" placeholder="Rol...">
+                </div>
+                <button type="submit" class="btn btn-lg btn-primary btn-block">Registrar</button>
+            </form>
+            <div v-if="this.alerta" class="alert alert-warning" role="alert">{{ resultado }}</div>
         </div>
     </div>
 </template>

@@ -34,6 +34,26 @@ module.exports = {
           .catch(err => res.status(500).json(err));
   },
 
+  buscar: (req, res, next) => {
+    const producto = {
+        nombre: req.params.nombre,
+        categoria: req.params.categoria,
+        marca: req.aparams.marca
+    }
+    usuarios.find({
+            $or: [
+                {nombre: producto.nombre}, 
+                {categoria: producto.categoria}, 
+                {marca: producto.marca}
+            ] 
+        })
+        .then(usuario => {
+            if(usuario) res.status(200).json(usuario);
+            else res.json({'resultado': '404'});
+        })
+        .catch(err => res.status(500).json(err));
+  },
+
   actualizar: (req, res, next) => {
       const id = req.params.id;
       const productoUpdate = {

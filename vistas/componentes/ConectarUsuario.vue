@@ -1,22 +1,20 @@
  <template lang="html">
     <div class="card">
-        <div class="card-block">
-            <h1 class="card-title">Inicio de Sesion</h1>
-            <div class="card-body">
-                <form v-on:submit.prevent="conectarUsuario" class="form-group">
-                    <div class="input-group">
-                        <span class="input-group-addon">Username</span>
-                        <input type="text" v-model="usuario.username" class="form-control" placeholder="Username...">
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon">Password</span>
-                        <input type="password" v-model="usuario.password" class="form-control" placeholder="Password...">
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-lg btn-block">Conectar</button>
-                </form>
-                <div v-if="this.alerta" class="alert alert-warning" role="alert">
-                    {{ resultado }}
+        <h3 class="card-header">Inicio de Sesion</h3>
+        <div class="card-body">
+            <form v-on:submit.prevent="conectarUsuario" class="form-group">
+                <div class="input-group">
+                    <span class="input-group-text">Username</span>
+                    <input type="text" v-model="usuario.username" class="form-control" placeholder="Username...">
                 </div>
+                <div class="input-group">
+                    <span class="input-group-text">Password</span>
+                    <input type="password" v-model="usuario.password" class="form-control" placeholder="Password...">
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg btn-block">Conectar</button>
+            </form>
+            <div v-if="this.alerta" class="alert alert-warning" role="alert">
+                {{ resultado }}
             </div>
         </div>
     </div>

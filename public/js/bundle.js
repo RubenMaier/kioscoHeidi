@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 17);
+/******/ 	return __webpack_require__(__webpack_require__.s = 18);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -71,7 +71,7 @@
 
 
 var bind = __webpack_require__(6);
-var isBuffer = __webpack_require__(24);
+var isBuffer = __webpack_require__(25);
 
 /*global toString:true*/
 
@@ -707,7 +707,7 @@ module.exports = g;
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var utils = __webpack_require__(0);
-var normalizeHeaderName = __webpack_require__(26);
+var normalizeHeaderName = __webpack_require__(27);
 
 var DEFAULT_CONTENT_TYPE = {
   'Content-Type': 'application/x-www-form-urlencoded'
@@ -3456,12 +3456,12 @@ module.exports = function bind(fn, thisArg) {
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var utils = __webpack_require__(0);
-var settle = __webpack_require__(27);
-var buildURL = __webpack_require__(29);
-var parseHeaders = __webpack_require__(30);
-var isURLSameOrigin = __webpack_require__(31);
+var settle = __webpack_require__(28);
+var buildURL = __webpack_require__(30);
+var parseHeaders = __webpack_require__(31);
+var isURLSameOrigin = __webpack_require__(32);
 var createError = __webpack_require__(8);
-var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(32);
+var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(33);
 
 module.exports = function xhrAdapter(config) {
   return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -3558,7 +3558,7 @@ module.exports = function xhrAdapter(config) {
     // This is only done if running in a standard browser environment.
     // Specifically not if we're in a web worker, or react-native.
     if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(33);
+      var cookies = __webpack_require__(34);
 
       // Add xsrf header
       var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
@@ -3643,7 +3643,7 @@ module.exports = function xhrAdapter(config) {
 "use strict";
 
 
-var enhanceError = __webpack_require__(28);
+var enhanceError = __webpack_require__(29);
 
 /**
  * Create an Error with the specified message, config, error code, request and response.
@@ -3733,6 +3733,17 @@ module.exports = Cancel;
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["a"] = ({});
 
@@ -3741,9 +3752,6 @@ module.exports = Cancel;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-//
-//
-//
 //
 //
 //
@@ -3839,11 +3847,26 @@ module.exports = Cancel;
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     data() {
         return {
-            productos: []
+            productos: [],
+            busqueda: {}
         };
     },
     created() {
@@ -3859,11 +3882,11 @@ module.exports = Cancel;
         borrarProducto(index, id) {
             const respuesta = confirm('¿Estas seguro de eliminar este producto?');
             if (respuesta) {
-                this.axios.delete('/productos/borrar/' + id).then(res => {
-                    console.log("estoy saliendo de esta mierda 2");
-                    this.productos.splice(index, 1);
-                }).catch(err => console.log(err));
+                this.axios.delete('/productos/borrar/' + id).then(res => this.productos.splice(index, 1)).catch(err => console.log(err));
             }
+        },
+        efectuarBusqueda(busqueda) {
+            this.axios.get('/productos/buscar/' + busqueda.nombre + "&" + busqueda.categoria + "&" + busqueda.marca).then(res => {}).catch(err => console.log(err));
         }
     }
 });
@@ -3873,10 +3896,6 @@ module.exports = Cancel;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-//
-//
-//
-//
 //
 //
 //
@@ -3979,8 +3998,6 @@ module.exports = Cancel;
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     data() {
@@ -4047,8 +4064,6 @@ module.exports = Cancel;
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     data() {
@@ -4083,17 +4098,45 @@ module.exports = Cancel;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    data() {
+        return {};
+    },
+    created() {
+        this.desconectarUsuario();
+    },
+    methods: {
+        desconectarUsuario() {
+            this.axios.get('/usuarios/desconectar').then(res => {
+                this.$session.destroy();
+                this.$router.push({ name: 'ConectarUsuario' });
+            }).catch(err => console.log(err));
+        }
+    }
+});
+
+/***/ }),
+/* 18 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(19);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_router__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue_axios__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue_axios__ = __webpack_require__(22);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_vue_axios__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_axios__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_axios__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_axios__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vue_session__ = __webpack_require__(41);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vue_session__ = __webpack_require__(42);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vue_session___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_vue_session__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__App_vue__ = __webpack_require__(42);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__rutas__ = __webpack_require__(44);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__App_vue__ = __webpack_require__(43);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__rutas__ = __webpack_require__(45);
 
 
 
@@ -4110,7 +4153,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */].use(__WEBPACK_IMPORTED_MODU
 new __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */](__WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */].util.extend({ router: __WEBPACK_IMPORTED_MODULE_6__rutas__["a" /* default */] }, __WEBPACK_IMPORTED_MODULE_5__App_vue__["a" /* default */])).$mount('#app');
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -12036,10 +12079,10 @@ Vue$3.nextTick(function () {
 
 /* harmony default export */ __webpack_exports__["a"] = (Vue$3);
 
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(2), __webpack_require__(3), __webpack_require__(19).setImmediate))
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(2), __webpack_require__(3), __webpack_require__(20).setImmediate))
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var apply = Function.prototype.apply;
@@ -12092,7 +12135,7 @@ exports._unrefActive = exports.active = function(item) {
 };
 
 // setimmediate attaches itself to the global object
-__webpack_require__(20);
+__webpack_require__(21);
 // On some exotic environments, it's not clear which object `setimmeidate` was
 // able to install onto.  Search each possibility in the same order as the
 // `setimmediate` library.
@@ -12106,7 +12149,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, process) {(function (global, undefined) {
@@ -12299,7 +12342,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), __webpack_require__(2)))
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12307,13 +12350,13 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var _typeof="fun
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)):window.Vue&&window.axios&&Vue.use(o,window.axios)}();
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(23);
+module.exports = __webpack_require__(24);
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12321,7 +12364,7 @@ module.exports = __webpack_require__(23);
 
 var utils = __webpack_require__(0);
 var bind = __webpack_require__(6);
-var Axios = __webpack_require__(25);
+var Axios = __webpack_require__(26);
 var defaults = __webpack_require__(4);
 
 /**
@@ -12356,14 +12399,14 @@ axios.create = function create(instanceConfig) {
 
 // Expose Cancel & CancelToken
 axios.Cancel = __webpack_require__(10);
-axios.CancelToken = __webpack_require__(39);
+axios.CancelToken = __webpack_require__(40);
 axios.isCancel = __webpack_require__(9);
 
 // Expose all/spread
 axios.all = function all(promises) {
   return Promise.all(promises);
 };
-axios.spread = __webpack_require__(40);
+axios.spread = __webpack_require__(41);
 
 module.exports = axios;
 
@@ -12372,7 +12415,7 @@ module.exports.default = axios;
 
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports) {
 
 /*!
@@ -12399,7 +12442,7 @@ function isSlowBuffer (obj) {
 
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12407,8 +12450,8 @@ function isSlowBuffer (obj) {
 
 var defaults = __webpack_require__(4);
 var utils = __webpack_require__(0);
-var InterceptorManager = __webpack_require__(34);
-var dispatchRequest = __webpack_require__(35);
+var InterceptorManager = __webpack_require__(35);
+var dispatchRequest = __webpack_require__(36);
 
 /**
  * Create a new instance of Axios
@@ -12485,7 +12528,7 @@ module.exports = Axios;
 
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12504,7 +12547,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12537,7 +12580,7 @@ module.exports = function settle(resolve, reject, response) {
 
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12565,7 +12608,7 @@ module.exports = function enhanceError(error, config, code, request, response) {
 
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12640,7 +12683,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12700,7 +12743,7 @@ module.exports = function parseHeaders(headers) {
 
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12775,7 +12818,7 @@ module.exports = (
 
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12818,7 +12861,7 @@ module.exports = btoa;
 
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12878,7 +12921,7 @@ module.exports = (
 
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12937,18 +12980,18 @@ module.exports = InterceptorManager;
 
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(0);
-var transformData = __webpack_require__(36);
+var transformData = __webpack_require__(37);
 var isCancel = __webpack_require__(9);
 var defaults = __webpack_require__(4);
-var isAbsoluteURL = __webpack_require__(37);
-var combineURLs = __webpack_require__(38);
+var isAbsoluteURL = __webpack_require__(38);
+var combineURLs = __webpack_require__(39);
 
 /**
  * Throws a `Cancel` if cancellation has been requested.
@@ -13030,7 +13073,7 @@ module.exports = function dispatchRequest(config) {
 
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13057,7 +13100,7 @@ module.exports = function transformData(data, headers, fns) {
 
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13078,7 +13121,7 @@ module.exports = function isAbsoluteURL(url) {
 
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13099,7 +13142,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13163,7 +13206,7 @@ module.exports = CancelToken;
 
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13197,7 +13240,7 @@ module.exports = function spread(callback) {
 
 
 /***/ }),
-/* 41 */
+/* 42 */
 /***/ (function(module, exports) {
 
 var STORAGE = null;
@@ -13310,13 +13353,13 @@ module.exports = VueSession;
 
 
 /***/ }),
-/* 42 */
+/* 43 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_App_vue__ = __webpack_require__(11);
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_29d40c06_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_App_vue__ = __webpack_require__(43);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_29d40c06_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_App_vue__ = __webpack_require__(44);
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
@@ -13362,7 +13405,7 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 43 */
+/* 44 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -13371,126 +13414,166 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c(
-      "nav",
-      {
-        staticClass:
-          "navbar navbar-toggleable-md navbar-inverse bg-inverse fixed-top"
-      },
-      [
-        _c(
-          "router-link",
-          {
-            staticClass: "navbar-brand",
-            attrs: { to: { name: "MostrarProducto" } }
-          },
-          [_vm._v("Kiosco Heidi")]
-        ),
-        _vm._v(" "),
-        _c("ul", { staticClass: "navbar-nav mr-auto" }, [
-          _c(
-            "li",
-            { staticClass: "nav-item" },
-            [
-              this.$session.exists()
-                ? _c(
-                    "router-link",
-                    {
-                      staticClass: "nav-link active",
-                      attrs: { to: { name: "MostrarProducto" } }
-                    },
-                    [_vm._v("Productos")]
+    _c("header", [
+      _c(
+        "nav",
+        {
+          staticClass: "navbar navbar-expand-md navbar-dark fixed-top bg-dark"
+        },
+        [
+          _c("div", { staticClass: "container" }, [
+            _c(
+              "div",
+              { staticClass: "navbar-header" },
+              [
+                _c(
+                  "router-link",
+                  {
+                    staticClass: "navbar-brand",
+                    attrs: { to: { name: "MostrarProducto" } }
+                  },
+                  [_vm._v("Kiosco Heidi")]
+                ),
+                _vm._v(" "),
+                _vm._m(0)
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass: "collapse navbar-collapse",
+                attrs: { id: "navbarCollapse" }
+              },
+              [
+                _c("ul", { staticClass: "navbar-nav mr-auto" }, [
+                  _c(
+                    "li",
+                    { staticClass: "nav-item" },
+                    [
+                      this.$session.exists()
+                        ? _c(
+                            "router-link",
+                            {
+                              staticClass: "nav-link active",
+                              attrs: { to: { name: "MostrarProducto" } }
+                            },
+                            [_vm._v("Productos")]
+                          )
+                        : _vm._e()
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "li",
+                    { staticClass: "nav-item" },
+                    [
+                      this.$session.exists()
+                        ? _c(
+                            "router-link",
+                            {
+                              staticClass: "nav-link",
+                              attrs: { to: { name: "CrearProducto" } }
+                            },
+                            [_vm._v("Crear producto")]
+                          )
+                        : _vm._e()
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "li",
+                    { staticClass: "nav-item" },
+                    [
+                      !this.$session.exists()
+                        ? _c(
+                            "router-link",
+                            {
+                              staticClass: "nav-link",
+                              attrs: { to: { name: "ConectarUsuario" } }
+                            },
+                            [_vm._v("Conectar")]
+                          )
+                        : _vm._e()
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "li",
+                    { staticClass: "nav-item" },
+                    [
+                      !this.$session.exists()
+                        ? _c(
+                            "router-link",
+                            {
+                              staticClass: "nav-link",
+                              attrs: { to: { name: "RegistrarUsuario" } }
+                            },
+                            [_vm._v("Registrar")]
+                          )
+                        : _vm._e()
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "li",
+                    { staticClass: "nav-item" },
+                    [
+                      this.$session.exists()
+                        ? _c(
+                            "router-link",
+                            {
+                              staticClass: "nav-link",
+                              attrs: { to: { name: "DesconectarUsuario" } }
+                            },
+                            [_vm._v("Desconectar")]
+                          )
+                        : _vm._e()
+                    ],
+                    1
                   )
-                : _vm._e()
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "li",
-            { staticClass: "nav-item" },
-            [
-              this.$session.exists()
-                ? _c(
-                    "router-link",
-                    {
-                      staticClass: "nav-link",
-                      attrs: { to: { name: "CrearProducto" } }
-                    },
-                    [_vm._v("Crear producto")]
-                  )
-                : _vm._e()
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "li",
-            { staticClass: "nav-item" },
-            [
-              !this.$session.exists()
-                ? _c(
-                    "router-link",
-                    {
-                      staticClass: "nav-link",
-                      attrs: { to: { name: "ConectarUsuario" } }
-                    },
-                    [_vm._v("Conectar")]
-                  )
-                : _vm._e()
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "li",
-            { staticClass: "nav-item" },
-            [
-              !this.$session.exists()
-                ? _c(
-                    "router-link",
-                    {
-                      staticClass: "nav-link",
-                      attrs: { to: { name: "RegistrarUsuario" } }
-                    },
-                    [_vm._v("Registrar")]
-                  )
-                : _vm._e()
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "li",
-            { staticClass: "nav-item" },
-            [
-              this.$session.exists()
-                ? _c(
-                    "router-link",
-                    {
-                      staticClass: "nav-link",
-                      attrs: { to: { name: "DesconectarUsuario" } }
-                    },
-                    [_vm._v("Desconectar")]
-                  )
-                : _vm._e()
-            ],
-            1
-          )
-        ])
-      ],
-      1
-    ),
+                ])
+              ]
+            )
+          ])
+        ]
+      )
+    ]),
     _vm._v(" "),
     _c("br"),
     _c("br"),
     _c("br"),
-    _c("br"),
     _vm._v(" "),
-    _c("div", { staticClass: "container" }, [_c("router-view")], 1)
+    _c("main", { staticClass: "container" }, [_c("router-view")], 1)
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "navbar-toggler",
+        attrs: {
+          type: "button",
+          "data-toggle": "collapse",
+          "data-target": "#navbarCollapse",
+          "aria-controls": "navbarCollapse",
+          "aria-expanded": "false",
+          "aria-label": "Toggle navigation"
+        }
+      },
+      [_c("span", { staticClass: "navbar-toggler-icon" })]
+    )
+  }
+]
 render._withStripped = true
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
@@ -13502,16 +13585,16 @@ if (false) {
 }
 
 /***/ }),
-/* 44 */
+/* 45 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_router__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__componentes_CrearProducto_vue__ = __webpack_require__(45);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__componentes_MostrarProducto_vue__ = __webpack_require__(47);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__componentes_EditarProducto_vue__ = __webpack_require__(49);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__componentes_RegistrarUsuario_vue__ = __webpack_require__(51);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__componentes_ConectarUsuario_vue__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__componentes_CrearProducto_vue__ = __webpack_require__(46);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__componentes_MostrarProducto_vue__ = __webpack_require__(48);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__componentes_EditarProducto_vue__ = __webpack_require__(50);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__componentes_RegistrarUsuario_vue__ = __webpack_require__(52);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__componentes_ConectarUsuario_vue__ = __webpack_require__(54);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__componentes_DesconectarUsuario_vue__ = __webpack_require__(56);
 
 
@@ -13548,19 +13631,19 @@ const routes = [{
   component: __WEBPACK_IMPORTED_MODULE_6__componentes_DesconectarUsuario_vue__["a" /* default */]
 }, {
   path: '*',
-  redirect: 'MostrarProducto'
+  component: __WEBPACK_IMPORTED_MODULE_5__componentes_ConectarUsuario_vue__["a" /* default */]
 }];
 
 /* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({ mode: 'history', routes: routes }));
 
 /***/ }),
-/* 45 */
+/* 46 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_CrearProducto_vue__ = __webpack_require__(12);
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_9df838f0_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_CrearProducto_vue__ = __webpack_require__(46);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_9df838f0_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_CrearProducto_vue__ = __webpack_require__(47);
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
@@ -13606,7 +13689,7 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 46 */
+/* 47 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -13615,198 +13698,180 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "card" }, [
-    _c("div", { staticClass: "card-block" }, [
-      _vm._m(0),
-      _vm._v(" "),
-      _c("div", { staticClass: "card-body" }, [
-        _c(
-          "form",
-          {
-            staticClass: "form-group",
-            on: {
-              submit: function($event) {
-                $event.preventDefault()
-                _vm.agregarProducto($event)
-              }
+    _c("h3", { staticClass: "card-header" }, [_vm._v("Agregar producto")]),
+    _vm._v(" "),
+    _c("div", { staticClass: "card-body" }, [
+      _c(
+        "form",
+        {
+          staticClass: "form-group",
+          on: {
+            submit: function($event) {
+              $event.preventDefault()
+              _vm.agregarProducto($event)
             }
-          },
-          [
-            _c("div", { staticClass: "input-group" }, [
-              _c("span", { staticClass: "input-group-addon" }, [
-                _vm._v("Producto")
-              ]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.producto.nombre,
-                    expression: "producto.nombre"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text", placeholder: "Agrega un nombre" },
-                domProps: { value: _vm.producto.nombre },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.producto, "nombre", $event.target.value)
-                  }
-                }
-              })
+          }
+        },
+        [
+          _c("div", { staticClass: "input-group" }, [
+            _c("span", { staticClass: "input-group-text" }, [
+              _vm._v("Producto")
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "input-group" }, [
-              _c("span", { staticClass: "input-group-addon" }, [
-                _vm._v("Categoria")
-              ]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.producto.categoria,
-                    expression: "producto.categoria"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text", placeholder: "Agrega una categoria" },
-                domProps: { value: _vm.producto.categoria },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.producto, "categoria", $event.target.value)
-                  }
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.producto.nombre,
+                  expression: "producto.nombre"
                 }
-              })
+              ],
+              staticClass: "form-control",
+              attrs: { type: "text", placeholder: "Agrega un nombre" },
+              domProps: { value: _vm.producto.nombre },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.producto, "nombre", $event.target.value)
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "input-group" }, [
+            _c("span", { staticClass: "input-group-text" }, [
+              _vm._v("Categoria")
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "input-group" }, [
-              _c("span", { staticClass: "input-group-addon" }, [
-                _vm._v("Marca")
-              ]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.producto.marca,
-                    expression: "producto.marca"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text", placeholder: "Agrega una marca" },
-                domProps: { value: _vm.producto.marca },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.producto, "marca", $event.target.value)
-                  }
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.producto.categoria,
+                  expression: "producto.categoria"
                 }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "input-group" }, [
-              _c("span", { staticClass: "input-group-addon" }, [
-                _vm._v("Precio")
-              ]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.producto.precio,
-                    expression: "producto.precio"
+              ],
+              staticClass: "form-control",
+              attrs: { type: "text", placeholder: "Agrega una categoria" },
+              domProps: { value: _vm.producto.categoria },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
                   }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text", placeholder: "Agrega un precio" },
-                domProps: { value: _vm.producto.precio },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.producto, "precio", $event.target.value)
-                  }
+                  _vm.$set(_vm.producto, "categoria", $event.target.value)
                 }
-              })
-            ]),
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "input-group" }, [
+            _c("span", { staticClass: "input-group-text" }, [_vm._v("Marca")]),
             _vm._v(" "),
-            _c("div", { staticClass: "input-group" }, [
-              _c("span", { staticClass: "input-group-addon" }, [
-                _vm._v("Segun")
-              ]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.producto.segun,
-                    expression: "producto.segun"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: {
-                  type: "text",
-                  placeholder:
-                    "Agrega el formato en el que se vende el producto"
-                },
-                domProps: { value: _vm.producto.segun },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.producto, "segun", $event.target.value)
-                  }
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.producto.marca,
+                  expression: "producto.marca"
                 }
-              })
-            ]),
+              ],
+              staticClass: "form-control",
+              attrs: { type: "text", placeholder: "Agrega una marca" },
+              domProps: { value: _vm.producto.marca },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.producto, "marca", $event.target.value)
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "input-group" }, [
+            _c("span", { staticClass: "input-group-text" }, [_vm._v("Precio")]),
             _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-lg btn-primary btn-block",
-                attrs: { type: "submit" }
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.producto.precio,
+                  expression: "producto.precio"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { type: "text", placeholder: "Agrega un precio" },
+              domProps: { value: _vm.producto.precio },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.producto, "precio", $event.target.value)
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "input-group" }, [
+            _c("span", { staticClass: "input-group-text" }, [_vm._v("Segun")]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.producto.segun,
+                  expression: "producto.segun"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: {
+                type: "text",
+                placeholder: "Agrega el formato en el que se vende el producto"
               },
-              [_vm._v("Actualizar")]
-            ),
-            _vm._v(" "),
-            this.alerta
-              ? _c(
-                  "div",
-                  { class: [_vm.alertaClass], attrs: { role: "alert" } },
-                  [_vm._v(_vm._s(this.resultado))]
-                )
-              : _vm._e()
-          ]
-        )
-      ])
+              domProps: { value: _vm.producto.segun },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.producto, "segun", $event.target.value)
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-lg btn-primary btn-block",
+              attrs: { type: "submit" }
+            },
+            [_vm._v("Actualizar")]
+          ),
+          _vm._v(" "),
+          this.alerta
+            ? _c(
+                "div",
+                { class: [_vm.alertaClass], attrs: { role: "alert" } },
+                [_vm._v(_vm._s(this.resultado))]
+              )
+            : _vm._e()
+        ]
+      )
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-title" }, [
-      _c("h1", [_vm._v("Agregar producto")])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
@@ -13818,13 +13883,13 @@ if (false) {
 }
 
 /***/ }),
-/* 47 */
+/* 48 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_MostrarProducto_vue__ = __webpack_require__(13);
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_54164dfe_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_MostrarProducto_vue__ = __webpack_require__(48);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_54164dfe_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_MostrarProducto_vue__ = __webpack_require__(49);
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
@@ -13870,7 +13935,7 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 48 */
+/* 49 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -13878,70 +13943,168 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("h3", [_vm._v("Lista de productos")]),
+  return _c("div", { staticClass: "card" }, [
+    _c("h3", { staticClass: "card-header" }, [_vm._v("Lista de productos")]),
     _vm._v(" "),
-    _c("table", { staticClass: "table" }, [
-      _vm._m(0),
-      _vm._v(" "),
-      _c(
-        "tbody",
-        _vm._l(_vm.productos, function(producto, index) {
-          return _c("tr", [
-            _c("td", [_vm._v(_vm._s(producto.nombre))]),
-            _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(producto.categoria))]),
-            _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(producto.marca))]),
-            _vm._v(" "),
-            _c("td", [_vm._v("$ " + _vm._s(producto.precio))]),
-            _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(producto.segun))]),
-            _vm._v(" "),
-            _c(
-              "td",
-              [
-                _c(
-                  "a",
+    _c("div", { staticClass: "card-body" }, [
+      _c("div", { staticClass: "table-responsive" }, [
+        _c(
+          "form",
+          {
+            staticClass: "form-group",
+            on: {
+              submit: function($event) {
+                $event.preventDefault()
+                _vm.efectuarBusqueda(_vm.busqueda)
+              }
+            }
+          },
+          [
+            _c("div", { staticClass: "input-group" }, [
+              _c("input", {
+                directives: [
                   {
-                    staticClass: "btn btn-danger",
-                    attrs: { href: "#" },
-                    on: {
-                      click: function($event) {
-                        _vm.borrarProducto(index, producto._id)
-                      }
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.busqueda.nombre,
+                    expression: "busqueda.nombre"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: {
+                  type: "text",
+                  placeholder: "Ingrese el nombre del producto..."
+                },
+                domProps: { value: _vm.busqueda.nombre },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
                     }
-                  },
-                  [
-                    _vm._v(
-                      "\n                        Eliminar\n                    "
-                    )
-                  ]
-                ),
+                    _vm.$set(_vm.busqueda, "nombre", $event.target.value)
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.busqueda.categoria,
+                    expression: "busqueda.categoria"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: {
+                  type: "text",
+                  placeholder: "Ingrese una categoria..."
+                },
+                domProps: { value: _vm.busqueda.categoria },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.busqueda, "categoria", $event.target.value)
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.busqueda.marca,
+                    expression: "busqueda.marca"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { type: "text", placeholder: "Ingrese una marca..." },
+                domProps: { value: _vm.busqueda.marca },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.busqueda, "marca", $event.target.value)
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c(
+                "button",
+                { staticClass: "btn btn-primary", attrs: { type: "submit" } },
+                [_vm._v("Buscar")]
+              )
+            ])
+          ]
+        ),
+        _vm._v(" "),
+        _c("table", { staticClass: "table table-sm" }, [
+          _vm._m(0),
+          _vm._v(" "),
+          _c(
+            "tbody",
+            _vm._l(_vm.productos, function(producto, index) {
+              return _c("tr", [
+                _c("td", [_vm._v(_vm._s(producto.nombre))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(producto.categoria))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(producto.marca))]),
+                _vm._v(" "),
+                _c("td", [_vm._v("$ " + _vm._s(producto.precio))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(producto.segun))]),
                 _vm._v(" "),
                 _c(
-                  "router-link",
-                  {
-                    staticClass: "btn btn-success",
-                    attrs: {
-                      to: {
-                        name: "EditarProducto",
-                        params: { id: producto._id }
-                      }
-                    }
-                  },
+                  "td",
                   [
-                    _vm._v(
-                      "\n                        Actualizar\n                    "
+                    _c(
+                      "a",
+                      {
+                        staticClass: "btn btn-danger",
+                        attrs: { href: "#" },
+                        on: {
+                          click: function($event) {
+                            _vm.borrarProducto(index, producto._id)
+                          }
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                                Eliminar\n                            "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "router-link",
+                      {
+                        staticClass: "btn btn-success",
+                        attrs: {
+                          to: {
+                            name: "EditarProducto",
+                            params: { id: producto._id }
+                          }
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                                Actualizar\n                            "
+                        )
+                      ]
                     )
-                  ]
+                  ],
+                  1
                 )
-              ],
-              1
-            )
-          ])
-        })
-      )
+              ])
+            })
+          )
+        ])
+      ])
     ])
   ])
 }
@@ -13978,13 +14141,13 @@ if (false) {
 }
 
 /***/ }),
-/* 49 */
+/* 50 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_EditarProducto_vue__ = __webpack_require__(14);
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_b66f51ec_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_EditarProducto_vue__ = __webpack_require__(50);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_b66f51ec_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_EditarProducto_vue__ = __webpack_require__(51);
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
@@ -14030,7 +14193,7 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 50 */
+/* 51 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -14039,198 +14202,180 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "card" }, [
-    _c("div", { staticClass: "card-block" }, [
-      _vm._m(0),
-      _vm._v(" "),
-      _c("div", { staticClass: "card-body" }, [
-        _c(
-          "form",
-          {
-            staticClass: "form-group",
-            on: {
-              submit: function($event) {
-                $event.preventDefault()
-                _vm.actualizarProducto($event)
-              }
+    _c("h3", { staticClass: "card-header" }, [_vm._v("Actualizar producto")]),
+    _vm._v(" "),
+    _c("div", { staticClass: "card-body" }, [
+      _c(
+        "form",
+        {
+          staticClass: "form-group",
+          on: {
+            submit: function($event) {
+              $event.preventDefault()
+              _vm.actualizarProducto($event)
             }
-          },
-          [
-            _c("div", { staticClass: "input-group" }, [
-              _c("span", { staticClass: "input-group-addon" }, [
-                _vm._v("Producto")
-              ]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.producto.nombre,
-                    expression: "producto.nombre"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text", placeholder: "Agrega un nombre" },
-                domProps: { value: _vm.producto.nombre },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.producto, "nombre", $event.target.value)
-                  }
-                }
-              })
+          }
+        },
+        [
+          _c("div", { staticClass: "input-group" }, [
+            _c("span", { staticClass: "input-group-text" }, [
+              _vm._v("Producto")
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "input-group" }, [
-              _c("span", { staticClass: "input-group-addon" }, [
-                _vm._v("Categoria")
-              ]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.producto.categoria,
-                    expression: "producto.categoria"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text", placeholder: "Agrega una categoria" },
-                domProps: { value: _vm.producto.categoria },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.producto, "categoria", $event.target.value)
-                  }
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.producto.nombre,
+                  expression: "producto.nombre"
                 }
-              })
+              ],
+              staticClass: "form-control",
+              attrs: { type: "text", placeholder: "Agrega un nombre" },
+              domProps: { value: _vm.producto.nombre },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.producto, "nombre", $event.target.value)
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "input-group" }, [
+            _c("span", { staticClass: "input-group-text" }, [
+              _vm._v("Categoria")
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "input-group" }, [
-              _c("span", { staticClass: "input-group-addon" }, [
-                _vm._v("Marca")
-              ]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.producto.marca,
-                    expression: "producto.marca"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text", placeholder: "Agrega una marca" },
-                domProps: { value: _vm.producto.marca },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.producto, "marca", $event.target.value)
-                  }
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.producto.categoria,
+                  expression: "producto.categoria"
                 }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "input-group" }, [
-              _c("span", { staticClass: "input-group-addon" }, [
-                _vm._v("Precio")
-              ]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.producto.precio,
-                    expression: "producto.precio"
+              ],
+              staticClass: "form-control",
+              attrs: { type: "text", placeholder: "Agrega una categoria" },
+              domProps: { value: _vm.producto.categoria },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
                   }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text", placeholder: "Agrega un precio" },
-                domProps: { value: _vm.producto.precio },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.producto, "precio", $event.target.value)
-                  }
+                  _vm.$set(_vm.producto, "categoria", $event.target.value)
                 }
-              })
-            ]),
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "input-group" }, [
+            _c("span", { staticClass: "input-group-text" }, [_vm._v("Marca")]),
             _vm._v(" "),
-            _c("div", { staticClass: "input-group" }, [
-              _c("span", { staticClass: "input-group-addon" }, [
-                _vm._v("Segun")
-              ]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.producto.segun,
-                    expression: "producto.segun"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: {
-                  type: "text",
-                  placeholder:
-                    "Agrega el formato en el que se vende el producto"
-                },
-                domProps: { value: _vm.producto.segun },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.producto, "segun", $event.target.value)
-                  }
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.producto.marca,
+                  expression: "producto.marca"
                 }
-              })
-            ]),
+              ],
+              staticClass: "form-control",
+              attrs: { type: "text", placeholder: "Agrega una marca" },
+              domProps: { value: _vm.producto.marca },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.producto, "marca", $event.target.value)
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "input-group" }, [
+            _c("span", { staticClass: "input-group-text" }, [_vm._v("Precio")]),
             _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-lg btn-primary btn-block",
-                attrs: { type: "submit" }
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.producto.precio,
+                  expression: "producto.precio"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { type: "text", placeholder: "Agrega un precio" },
+              domProps: { value: _vm.producto.precio },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.producto, "precio", $event.target.value)
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "input-group" }, [
+            _c("span", { staticClass: "input-group-text" }, [_vm._v("Segun")]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.producto.segun,
+                  expression: "producto.segun"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: {
+                type: "text",
+                placeholder: "Agrega el formato en el que se vende el producto"
               },
-              [_vm._v("Actualizar")]
-            ),
-            _vm._v(" "),
-            this.alerta
-              ? _c(
-                  "div",
-                  { class: [_vm.alertaClass], attrs: { role: "alert" } },
-                  [_vm._v(_vm._s(this.resultado))]
-                )
-              : _vm._e()
-          ]
-        )
-      ])
+              domProps: { value: _vm.producto.segun },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.producto, "segun", $event.target.value)
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-lg btn-primary btn-block",
+              attrs: { type: "submit" }
+            },
+            [_vm._v("Actualizar")]
+          ),
+          _vm._v(" "),
+          this.alerta
+            ? _c(
+                "div",
+                { class: [_vm.alertaClass], attrs: { role: "alert" } },
+                [_vm._v(_vm._s(this.resultado))]
+              )
+            : _vm._e()
+        ]
+      )
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-title" }, [
-      _c("h1", [_vm._v("Actualizar producto")])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
@@ -14242,13 +14387,13 @@ if (false) {
 }
 
 /***/ }),
-/* 51 */
+/* 52 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_RegistrarUsuario_vue__ = __webpack_require__(15);
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_0c4d8990_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_RegistrarUsuario_vue__ = __webpack_require__(52);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_0c4d8990_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_RegistrarUsuario_vue__ = __webpack_require__(53);
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
@@ -14294,7 +14439,7 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 52 */
+/* 53 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -14303,207 +14448,201 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "card" }, [
-    _c("div", { staticClass: "card-block" }, [
-      _c("h1", { staticClass: "card-title" }, [_vm._v("Registro de usuario")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "card-body" }, [
-        _c(
-          "form",
-          {
-            staticClass: "form-group",
-            on: {
-              submit: function($event) {
-                $event.preventDefault()
-                _vm.registrarUsuario($event)
-              }
+    _c("h3", { staticClass: "card-header" }, [_vm._v("Registro de usuario")]),
+    _vm._v(" "),
+    _c("div", { staticClass: "card-body" }, [
+      _c(
+        "form",
+        {
+          staticClass: "form-group",
+          on: {
+            submit: function($event) {
+              $event.preventDefault()
+              _vm.registrarUsuario($event)
             }
-          },
-          [
-            _c("div", { staticClass: "input-group" }, [
-              _c("span", { staticClass: "input-group-addon" }, [
-                _vm._v("Username")
-              ]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.usuario.username,
-                    expression: "usuario.username"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text", placeholder: "Username..." },
-                domProps: { value: _vm.usuario.username },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.usuario, "username", $event.target.value)
-                  }
-                }
-              })
+          }
+        },
+        [
+          _c("div", { staticClass: "input-group" }, [
+            _c("span", { staticClass: "input-group-text" }, [
+              _vm._v("Username")
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "input-group" }, [
-              _c("span", { staticClass: "input-group-addon" }, [
-                _vm._v("Password")
-              ]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.usuario.password,
-                    expression: "usuario.password"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "password", placeholder: "Password..." },
-                domProps: { value: _vm.usuario.password },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.usuario, "password", $event.target.value)
-                  }
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.usuario.username,
+                  expression: "usuario.username"
                 }
-              })
+              ],
+              staticClass: "form-control",
+              attrs: { type: "text", placeholder: "Username..." },
+              domProps: { value: _vm.usuario.username },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.usuario, "username", $event.target.value)
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "input-group" }, [
+            _c("span", { staticClass: "input-group-text" }, [
+              _vm._v("Password")
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "input-group" }, [
-              _c("span", { staticClass: "input-group-addon" }, [
-                _vm._v("Email")
-              ]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.usuario.email,
-                    expression: "usuario.email"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text", placeholder: "Email..." },
-                domProps: { value: _vm.usuario.email },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.usuario, "email", $event.target.value)
-                  }
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.usuario.password,
+                  expression: "usuario.password"
                 }
-              })
+              ],
+              staticClass: "form-control",
+              attrs: { type: "password", placeholder: "Password..." },
+              domProps: { value: _vm.usuario.password },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.usuario, "password", $event.target.value)
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "input-group" }, [
+            _c("span", { staticClass: "input-group-text" }, [_vm._v("Email")]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.usuario.email,
+                  expression: "usuario.email"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { type: "text", placeholder: "Email..." },
+              domProps: { value: _vm.usuario.email },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.usuario, "email", $event.target.value)
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "input-group" }, [
+            _c("span", { staticClass: "input-group-text" }, [_vm._v("Nombre")]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.usuario.nombre,
+                  expression: "usuario.nombre"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { type: "text", placeholder: "Nombre..." },
+              domProps: { value: _vm.usuario.nombre },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.usuario, "nombre", $event.target.value)
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "input-group" }, [
+            _c("span", { staticClass: "input-group-text" }, [
+              _vm._v("Apellido")
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "input-group" }, [
-              _c("span", { staticClass: "input-group-addon" }, [
-                _vm._v("Nombre")
-              ]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.usuario.nombre,
-                    expression: "usuario.nombre"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text", placeholder: "Nombre..." },
-                domProps: { value: _vm.usuario.nombre },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.usuario, "nombre", $event.target.value)
-                  }
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.usuario.apellido,
+                  expression: "usuario.apellido"
                 }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "input-group" }, [
-              _c("span", { staticClass: "input-group-addon" }, [
-                _vm._v("Apellido")
-              ]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.usuario.apellido,
-                    expression: "usuario.apellido"
+              ],
+              staticClass: "form-control",
+              attrs: { type: "text", placeholder: "Apellido.." },
+              domProps: { value: _vm.usuario.apellido },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
                   }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text", placeholder: "Apellido.." },
-                domProps: { value: _vm.usuario.apellido },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.usuario, "apellido", $event.target.value)
-                  }
+                  _vm.$set(_vm.usuario, "apellido", $event.target.value)
                 }
-              })
-            ]),
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "input-group" }, [
+            _c("span", { staticClass: "input-group-text" }, [_vm._v("Rol")]),
             _vm._v(" "),
-            _c("div", { staticClass: "input-group" }, [
-              _c("span", { staticClass: "input-group-addon" }, [_vm._v("Rol")]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.usuario.rol,
-                    expression: "usuario.rol"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text", placeholder: "Rol..." },
-                domProps: { value: _vm.usuario.rol },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.usuario, "rol", $event.target.value)
-                  }
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.usuario.rol,
+                  expression: "usuario.rol"
                 }
-              })
-            ]),
-            _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-lg btn-primary btn-block",
-                attrs: { type: "submit" }
-              },
-              [_vm._v("Registrar")]
-            )
-          ]
-        ),
-        _vm._v(" "),
-        this.alerta
-          ? _c(
-              "div",
-              { staticClass: "alert alert-warning", attrs: { role: "alert" } },
-              [_vm._v(_vm._s(_vm.resultado))]
-            )
-          : _vm._e()
-      ])
+              ],
+              staticClass: "form-control",
+              attrs: { type: "text", placeholder: "Rol..." },
+              domProps: { value: _vm.usuario.rol },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.usuario, "rol", $event.target.value)
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-lg btn-primary btn-block",
+              attrs: { type: "submit" }
+            },
+            [_vm._v("Registrar")]
+          )
+        ]
+      ),
+      _vm._v(" "),
+      this.alerta
+        ? _c(
+            "div",
+            { staticClass: "alert alert-warning", attrs: { role: "alert" } },
+            [_vm._v(_vm._s(_vm.resultado))]
+          )
+        : _vm._e()
     ])
   ])
 }
@@ -14519,13 +14658,13 @@ if (false) {
 }
 
 /***/ }),
-/* 53 */
+/* 54 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_ConectarUsuario_vue__ = __webpack_require__(16);
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_65d882aa_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_ConectarUsuario_vue__ = __webpack_require__(54);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_65d882aa_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_ConectarUsuario_vue__ = __webpack_require__(55);
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
@@ -14571,7 +14710,7 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 54 */
+/* 55 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -14580,103 +14719,95 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "card" }, [
-    _c("div", { staticClass: "card-block" }, [
-      _c("h1", { staticClass: "card-title" }, [_vm._v("Inicio de Sesion")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "card-body" }, [
-        _c(
-          "form",
-          {
-            staticClass: "form-group",
-            on: {
-              submit: function($event) {
-                $event.preventDefault()
-                _vm.conectarUsuario($event)
-              }
+    _c("h3", { staticClass: "card-header" }, [_vm._v("Inicio de Sesion")]),
+    _vm._v(" "),
+    _c("div", { staticClass: "card-body" }, [
+      _c(
+        "form",
+        {
+          staticClass: "form-group",
+          on: {
+            submit: function($event) {
+              $event.preventDefault()
+              _vm.conectarUsuario($event)
             }
-          },
-          [
-            _c("div", { staticClass: "input-group" }, [
-              _c("span", { staticClass: "input-group-addon" }, [
-                _vm._v("Username")
-              ]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.usuario.username,
-                    expression: "usuario.username"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text", placeholder: "Username..." },
-                domProps: { value: _vm.usuario.username },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.usuario, "username", $event.target.value)
-                  }
-                }
-              })
+          }
+        },
+        [
+          _c("div", { staticClass: "input-group" }, [
+            _c("span", { staticClass: "input-group-text" }, [
+              _vm._v("Username")
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "input-group" }, [
-              _c("span", { staticClass: "input-group-addon" }, [
-                _vm._v("Password")
-              ]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.usuario.password,
-                    expression: "usuario.password"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "password", placeholder: "Password..." },
-                domProps: { value: _vm.usuario.password },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.usuario, "password", $event.target.value)
-                  }
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.usuario.username,
+                  expression: "usuario.username"
                 }
-              })
+              ],
+              staticClass: "form-control",
+              attrs: { type: "text", placeholder: "Username..." },
+              domProps: { value: _vm.usuario.username },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.usuario, "username", $event.target.value)
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "input-group" }, [
+            _c("span", { staticClass: "input-group-text" }, [
+              _vm._v("Password")
             ]),
             _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-primary btn-lg btn-block",
-                attrs: { type: "submit" }
-              },
-              [_vm._v("Conectar")]
-            )
-          ]
-        ),
-        _vm._v(" "),
-        this.alerta
-          ? _c(
-              "div",
-              { staticClass: "alert alert-warning", attrs: { role: "alert" } },
-              [
-                _vm._v(
-                  "\n                " +
-                    _vm._s(_vm.resultado) +
-                    "\n            "
-                )
-              ]
-            )
-          : _vm._e()
-      ])
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.usuario.password,
+                  expression: "usuario.password"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { type: "password", placeholder: "Password..." },
+              domProps: { value: _vm.usuario.password },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.usuario, "password", $event.target.value)
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-primary btn-lg btn-block",
+              attrs: { type: "submit" }
+            },
+            [_vm._v("Conectar")]
+          )
+        ]
+      ),
+      _vm._v(" "),
+      this.alerta
+        ? _c(
+            "div",
+            { staticClass: "alert alert-warning", attrs: { role: "alert" } },
+            [_vm._v("\n            " + _vm._s(_vm.resultado) + "\n        ")]
+          )
+        : _vm._e()
     ])
   ])
 }
@@ -14692,39 +14823,11 @@ if (false) {
 }
 
 /***/ }),
-/* 55 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-    data() {
-        return {};
-    },
-    created() {
-        this.desconectarUsuario();
-    },
-    methods: {
-        desconectarUsuario() {
-            this.axios.get('/usuarios/desconectar').then(res => {
-                this.$session.destroy();
-                this.$router.push({ name: 'ConectarUsuario' });
-            }).catch(err => console.log(err));
-        }
-    }
-});
-
-/***/ }),
 /* 56 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_DesconectarUsuario_vue__ = __webpack_require__(55);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_DesconectarUsuario_vue__ = __webpack_require__(17);
 /* unused harmony namespace reexport */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_21c88666_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_DesconectarUsuario_vue__ = __webpack_require__(57);
 var disposed = false

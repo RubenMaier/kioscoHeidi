@@ -40,7 +40,7 @@ const routes = [
     },
     {
       path: '*',
-      redirect: 'MostrarProducto'
+      component: ConectarUsuario
     }
 ];
 
