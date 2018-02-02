@@ -4,7 +4,9 @@ module.exports = (server) => {
 
     require('./middlewares')(server);
 
+    require('./autorizacion')(server);
+
     require('./routes')(server);
 
-    require('./error')(server);
+    //require('./error')(server);
 };

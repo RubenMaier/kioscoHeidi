@@ -32,24 +32,20 @@ const UsuarioSchema = new mongoose.Schema({
     }
 });
 
-//authenticate input against database
-UsuarioSchema.statics.authenticate = function (username, password, callback) {
+UsuarioSchema.statics.autenticacion = function (username, password, callback) {
     Usuario.findOne({ username: username })
         .then(usuario => {
-            if(!usuario) {
-                var err = new Error('Usuario no encontrado.');
-                err.status = 401;
-                return callback(err);
+            if(!usuario) { // usuario no encontrado
+                return callback("404", null);
             }
             bcrypt.compare(password, usuario.password, function (err, result) {
-                if (result === true) return callback(null, usuario);
-                else return callback(err, null);
+                if (result === true) return callback(null, usuario); // encontrado y validado
+                else return callback("201", null); // encontrado pero no validado
             })
         })
-        .catch(err => callback(err, null));
+        .catch(err => callback("500", null)); // error
 }
 
-//hashing a password before saving it to the database
 UsuarioSchema.pre('save', function (next) {
     var usuario = this;
     bcrypt.hash(usuario.password, 10, function (err, hash) {
