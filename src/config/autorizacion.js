@@ -4,6 +4,7 @@ function noAutorizado(req) {
 }
 
 function validarAutorizacion(req, res, next) {
+    console.log(req.url);
     const parametro = req.url.split("/");
     console.log("[autorizacion]: " +parametro);
     if(parametro[1] === "productos" && noAutorizado(req)) return;

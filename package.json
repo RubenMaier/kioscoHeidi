@@ -31,6 +31,8 @@
     "vue-router": "^3.0.1",
     "vue-session": "^1.0.0",
     "vue-template-compiler": "^2.5.13",
-    "webpack": "^3.10.0"
+    "webpack": "^3.10.0",
+    "pug": "^2.0.3",
+    "pug-loader": "^2.3.0"
   }
 }

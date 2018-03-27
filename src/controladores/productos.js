@@ -7,6 +7,7 @@ module.exports = {
       productos.find((err, productos) => {
         if (err) return res.status(500).json(err);
         res.status(200).json(productos);
+        console.log(res);
       });
   },
 

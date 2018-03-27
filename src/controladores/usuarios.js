@@ -4,10 +4,11 @@ module.exports = {
 
     conectar: (req, res, next) => {
         usuarios.autenticacion(req.body.username, req.body.password, (error, usuario) => {
-            if(error !== 200) return res.json({'resultado': error});
+            var booleano = error !== "200"
+            if(error !== "200") return res.json({'error': error});
             req.session.authenticated = true;
             console.log("conectar: " + JSON.stringify(req.session));
-            res.json({'resultado': usuario._id});
+            res.json({'error': error, 'resultado': usuario._id});
         })
     },
 

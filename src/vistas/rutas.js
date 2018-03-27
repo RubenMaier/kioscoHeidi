@@ -1,11 +1,11 @@
 import VueRouter from 'vue-router'
 
-import CrearProducto from './componentes/CrearProducto.vue'
-import MostrarProducto from './componentes/MostrarProducto.vue'
-import EditarProducto from './componentes/EditarProducto.vue'
-import RegistrarUsuario from './componentes/RegistrarUsuario.vue'
-import ConectarUsuario from './componentes/ConectarUsuario.vue'
-import DesconectarUsuario from './componentes/DesconectarUsuario.vue'
+import CrearProducto from './componentes/rutas/CrearProducto.vue'
+import MostrarProducto from './componentes/rutas/MostrarProducto.vue'
+import EditarProducto from './componentes/rutas/EditarProducto.vue'
+import RegistrarUsuario from './componentes/rutas/RegistrarUsuario.vue'
+import ConectarUsuario from './componentes/rutas/ConectarUsuario.vue'
+import DesconectarUsuario from './componentes/rutas/DesconectarUsuario.vue'
 
 const routes = [
     {

@@ -39,7 +39,7 @@ UsuarioSchema.statics.autenticacion = function (username, password, callback) {
                 return callback("404", null);
             }
             bcrypt.compare(password, usuario.password, function (err, result) {
-                if (result === true) return callback(null, usuario); // encontrado y validado
+                if (result === true) return callback("200", usuario); // encontrado y validado
                 else return callback("201", null); // encontrado pero no validado
             })
         })

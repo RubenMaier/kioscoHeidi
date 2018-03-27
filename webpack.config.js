@@ -6,6 +6,11 @@ module.exports = {
         path: path.join(__dirname, 'public/js'),
         filename: 'bundle.js'
     },
+    resolve: {
+        alias: {
+            '@': path.resolve(__dirname, '')
+        }
+    },
     module: {
         loaders: [
             {

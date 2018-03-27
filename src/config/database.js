@@ -6,7 +6,7 @@ const
     host = "localhost",
     port = "27017",
     db = "dbKioscoHeidi",
-    url = "mongodb://"+host+":"+port+"/"+db;
+    url = `mongodb://${host}:${port}/${db}`;
 
 module.exports = (server) => {
 

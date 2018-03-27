@@ -1,14 +1,10 @@
- <template lang="html">
-    <div>
-    </div>
+<template lang="pug">
+  
 </template>
+
 
 <script>
 export default {
-    data() {
-        return {
-        }
-    },
     created() {
         this.desconectarUsuario();
     },
@@ -19,6 +15,7 @@ export default {
                 .then(res => {
                     console.log(res);
                     this.$session.destroy();
+                    this.$bus.$emit('actualizarSesion', false);
                     this.$router.push({name: 'ConectarUsuario'});
                 })
                 .catch(err => console.log(err));
