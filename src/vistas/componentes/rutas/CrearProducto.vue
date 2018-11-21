@@ -30,23 +30,27 @@
 
 <script>
 export default {
-    data() {
-        return {
-            producto: {},
-            resultado: null,
-            alerta: false,
-            alertaClass: "alert alert-warning"
-        }
-    },
-    methods: {
-        agregarProducto() {
-             this.axios.post('/productos/agregar', this.producto)
-                .then(res => {
-                    this.alerta = true;
-                    this.alertaClass = "alert alert-success";
-                    this.resultado = `Producto de nombre ${this.producto.nombre} agregado con exito!`})
-                .catch(err => console.log(err));
-        }
+  data() {
+    return {
+      producto: {},
+      resultado: null,
+      alerta: false,
+      alertaClass: "alert alert-warning"
+    };
+  },
+  methods: {
+    agregarProducto() {
+      this.axios
+        .post("/productos/agregar", this.producto)
+        .then(res => {
+          this.alerta = true;
+          this.alertaClass = "alert alert-success";
+          this.resultado = `Producto de nombre ${
+            this.producto.nombre
+          } agregado con exito!`;
+        })
+        .catch(err => console.log(err));
     }
-}
-</script> 
+  }
+};
+</script>

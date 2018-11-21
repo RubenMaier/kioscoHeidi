@@ -33,39 +33,48 @@
 
 <script>
 export default {
-    data() {
-        return {
-            productos: [],
-            busqueda: {}
-        }
+  data() {
+    return {
+      productos: [],
+      busqueda: {}
+    };
+  },
+  created() {
+    this.obtenerProductos();
+  },
+  methods: {
+    obtenerProductos() {
+      if (!this.$session.exists())
+        return this.$router.push({ name: "ConectarUsuario" });
+      this.axios
+        .get("/productos")
+        .then(res => {
+          this.productos = res.data;
+        })
+        .catch(err => console.log(err));
     },
-    created() {
-        this.obtenerProductos();
+    borrarProducto(index, id) {
+      const respuesta = confirm("¿Estas seguro de eliminar este producto?");
+      if (respuesta) {
+        this.axios
+          .delete("/productos/borrar/" + id)
+          .then(res => this.productos.splice(index, 1))
+          .catch(err => console.log(err));
+      }
     },
-    methods: {
-        obtenerProductos() {
-            if(!this.$session.exists()) return this.$router.push({name: 'ConectarUsuario'});
-            this.axios.get('/productos')
-                .then(res => {
-                    this.productos = res.data
-                })
-                .catch(err => console.log(err));
-        },
-        borrarProducto(index, id) {
-            const respuesta = confirm('¿Estas seguro de eliminar este producto?');
-            if(respuesta) {
-                this.axios.delete('/productos/borrar/' + id)
-                    .then(res => this.productos.splice(index, 1))
-                    .catch(err => console.log(err));
-            }
-        },
-        efectuarBusqueda(busqueda) {
-            this.axios.get('/productos/buscar/' + busqueda.nombre + "&" + busqueda.categoria + "&" + busqueda.marca)
-                .then(res => {
-                        
-                })
-                .catch(err => console.log(err));
-        }
+    efectuarBusqueda(busqueda) {
+      this.axios
+        .get(
+          "/productos/buscar/" +
+            busqueda.nombre +
+            "&" +
+            busqueda.categoria +
+            "&" +
+            busqueda.marca
+        )
+        .then(res => {})
+        .catch(err => console.log(err));
     }
-}
+  }
+};
 </script> 

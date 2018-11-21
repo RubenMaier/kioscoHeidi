@@ -19,45 +19,50 @@
 
 <script>
 export default {
-    data() {
-        return {
-            usuario: {},
-            resultado: {
-                username: null,
-                password: null,
-                general: null
-            }
-        }
+  data() {
+    return {
+      usuario: {},
+      resultado: {
+        username: null,
+        password: null,
+        general: null
+      }
+    };
+  },
+  created() {
+    this.validarConexion();
+  },
+  methods: {
+    validarConexion() {
+      if (this.$session.exists())
+        this.$router.push({ name: "MostrarProducto" });
+      console.log(this.$session);
     },
-    created() {
-        this.validarConexion();
-    },
-    methods: {
-        validarConexion() {
-            if(this.$session.exists()) this.$router.push({name: 'MostrarProducto'});
-            console.log(this.$session)
-        },
-        conectarUsuario() {
-            this.resultado.username = null;
-            this.resultado.password = null;
-            this.resultado.general = null;
-            if(!this.usuario.username) this.resultado.username = "Ingrese un username";
-            if(!this.usuario.password) this.resultado.password = "Ingrese un password";
-            if(!this.resultado.username && !this.resultado.password) {
-                this.axios.post('/usuarios/conectar', this.usuario)
-                    .then(res => {
-                        if(res.data.error !== "200") {
-                            this.resultado.general = "La password o el username es incorrecto";
-                            return;
-                        }
-                        this.$session.start();
-                        this.$session.set('id', res.data.resultado);
-                        this.$bus.$emit('actualizarSesion', true);
-                        this.$router.push({name: 'MostrarProducto'});
-                    })
-                    .catch(err => console.log(err));
+    conectarUsuario() {
+      this.resultado.username = null;
+      this.resultado.password = null;
+      this.resultado.general = null;
+      if (!this.usuario.username)
+        this.resultado.username = "Ingrese un username";
+      if (!this.usuario.password)
+        this.resultado.password = "Ingrese un password";
+      if (!this.resultado.username && !this.resultado.password) {
+        this.axios
+          .post("/usuarios/conectar", this.usuario)
+          .then(res => {
+            if (res.data.error !== "200") {
+              this.resultado.general =
+                "La password o el username es incorrecto";
+              return;
             }
-        }
+            this.$session.start();
+            this.$session.set("id", res.data.resultado);
+            this.$bus.$emit("actualizarSesion", true);
+            this.$router.push({ name: "MostrarProducto" });
+          })
+          .catch(err => console.log(err));
+      }
     }
-}
+  }
+};
 </script> 

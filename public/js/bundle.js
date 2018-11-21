@@ -3716,9 +3716,9 @@ module.exports = Cancel;
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
-    components: {
-        Navegador: __WEBPACK_IMPORTED_MODULE_0__componentes_tema_Navegador_vue__["a" /* default */]
-    }
+  components: {
+    Navegador: __WEBPACK_IMPORTED_MODULE_0__componentes_tema_Navegador_vue__["a" /* default */]
+  }
 });
 
 /***/ }),
@@ -3751,16 +3751,16 @@ module.exports = Cancel;
 //
 
 /* harmony default export */ __webpack_exports__["a"] = ({
-    data() {
-        return {
-            sesionIniciada: false
-        };
-    },
-    created() {
-        this.$bus.$on('actualizarSesion', valor => {
-            this.sesionIniciada = valor;
-        });
-    }
+  data() {
+    return {
+      sesionIniciada: false
+    };
+  },
+  created() {
+    this.$bus.$on("actualizarSesion", valor => {
+      this.sesionIniciada = valor;
+    });
+  }
 });
 
 /***/ }),
@@ -3800,23 +3800,23 @@ module.exports = Cancel;
 //
 
 /* harmony default export */ __webpack_exports__["a"] = ({
-    data() {
-        return {
-            producto: {},
-            resultado: null,
-            alerta: false,
-            alertaClass: "alert alert-warning"
-        };
-    },
-    methods: {
-        agregarProducto() {
-            this.axios.post('/productos/agregar', this.producto).then(res => {
-                this.alerta = true;
-                this.alertaClass = "alert alert-success";
-                this.resultado = `Producto de nombre ${this.producto.nombre} agregado con exito!`;
-            }).catch(err => console.log(err));
-        }
+  data() {
+    return {
+      producto: {},
+      resultado: null,
+      alerta: false,
+      alertaClass: "alert alert-warning"
+    };
+  },
+  methods: {
+    agregarProducto() {
+      this.axios.post("/productos/agregar", this.producto).then(res => {
+        this.alerta = true;
+        this.alertaClass = "alert alert-success";
+        this.resultado = `Producto de nombre ${this.producto.nombre} agregado con exito!`;
+      }).catch(err => console.log(err));
     }
+  }
 });
 
 /***/ }),
@@ -3859,32 +3859,32 @@ module.exports = Cancel;
 //
 
 /* harmony default export */ __webpack_exports__["a"] = ({
-    data() {
-        return {
-            productos: [],
-            busqueda: {}
-        };
+  data() {
+    return {
+      productos: [],
+      busqueda: {}
+    };
+  },
+  created() {
+    this.obtenerProductos();
+  },
+  methods: {
+    obtenerProductos() {
+      if (!this.$session.exists()) return this.$router.push({ name: "ConectarUsuario" });
+      this.axios.get("/productos").then(res => {
+        this.productos = res.data;
+      }).catch(err => console.log(err));
     },
-    created() {
-        this.obtenerProductos();
+    borrarProducto(index, id) {
+      const respuesta = confirm("¿Estas seguro de eliminar este producto?");
+      if (respuesta) {
+        this.axios.delete("/productos/borrar/" + id).then(res => this.productos.splice(index, 1)).catch(err => console.log(err));
+      }
     },
-    methods: {
-        obtenerProductos() {
-            if (!this.$session.exists()) return this.$router.push({ name: 'ConectarUsuario' });
-            this.axios.get('/productos').then(res => {
-                this.productos = res.data;
-            }).catch(err => console.log(err));
-        },
-        borrarProducto(index, id) {
-            const respuesta = confirm('¿Estas seguro de eliminar este producto?');
-            if (respuesta) {
-                this.axios.delete('/productos/borrar/' + id).then(res => this.productos.splice(index, 1)).catch(err => console.log(err));
-            }
-        },
-        efectuarBusqueda(busqueda) {
-            this.axios.get('/productos/buscar/' + busqueda.nombre + "&" + busqueda.categoria + "&" + busqueda.marca).then(res => {}).catch(err => console.log(err));
-        }
+    efectuarBusqueda(busqueda) {
+      this.axios.get("/productos/buscar/" + busqueda.nombre + "&" + busqueda.categoria + "&" + busqueda.marca).then(res => {}).catch(err => console.log(err));
     }
+  }
 });
 
 /***/ }),
@@ -3918,31 +3918,31 @@ module.exports = Cancel;
 //
 
 /* harmony default export */ __webpack_exports__["a"] = ({
-    data() {
-        return {
-            producto: {},
-            resultado: null,
-            alerta: false,
-            alertaClass: "alert alert-warning"
-        };
+  data() {
+    return {
+      producto: {},
+      resultado: null,
+      alerta: false,
+      alertaClass: "alert alert-warning"
+    };
+  },
+  created() {
+    this.obtenerProducto();
+  },
+  methods: {
+    obtenerProducto() {
+      this.axios.get("/productos/obtener/" + this.$route.params.id).then(res => {
+        this.producto = res.data;
+      }).catch(err => console.log(err));
     },
-    created() {
-        this.obtenerProducto();
-    },
-    methods: {
-        obtenerProducto() {
-            this.axios.get('/productos/obtener/' + this.$route.params.id).then(res => {
-                this.producto = res.data;
-            }).catch(err => console.log(err));
-        },
-        actualizarProducto() {
-            this.axios.put('/productos/actualizar/' + this.$route.params.id, this.producto).then(res => {
-                this.alerta = true;
-                this.alertaClass = "alert alert-success";
-                this.resultado = "Producto de nombre " + this.producto.nombre + " actualizado con exito!";
-            }).catch(err => console.log(err));
-        }
+    actualizarProducto() {
+      this.axios.put("/productos/actualizar/" + this.$route.params.id, this.producto).then(res => {
+        this.alerta = true;
+        this.alertaClass = "alert alert-success";
+        this.resultado = "Producto de nombre " + this.producto.nombre + " actualizado con exito!";
+      }).catch(err => console.log(err));
     }
+  }
 });
 
 /***/ }),
@@ -3990,52 +3990,52 @@ module.exports = Cancel;
 //
 
 /* harmony default export */ __webpack_exports__["a"] = ({
-    data() {
-        return {
-            usuarioControl: null,
-            usuario: {},
-            resultado: {
-                username: null,
-                password: null,
-                email: null,
-                nombre: null,
-                apellido: null,
-                rol: null
-            }
-        };
+  data() {
+    return {
+      usuarioControl: null,
+      usuario: {},
+      resultado: {
+        username: null,
+        password: null,
+        email: null,
+        nombre: null,
+        apellido: null,
+        rol: null
+      }
+    };
+  },
+  created() {
+    this.validarConexion();
+  },
+  methods: {
+    validarConexion() {
+      if (this.$session.exists()) this.$router.push({ name: "MostrarProducto" });
     },
-    created() {
-        this.validarConexion();
-    },
-    methods: {
-        validarConexion() {
-            if (this.$session.exists()) this.$router.push({ name: 'MostrarProducto' });
-        },
-        registrarUsuario() {
-            this.resultado.username = null;
-            this.resultado.passowrd = null;
-            this.resultado.email = null;
-            this.resultado.nombre = null;
-            this.resultado.apellido = null;
-            this.resultado.rol = null;
-            if (!this.usuario.username) this.resultado.username = "Ingrese un username";
-            this.axios.get('/usuarios/obtener/username/' + this.usuario.username).then(res => {
-                if (this.usuario.username === res.data.username) this.resultado.username = "El username ya existe en la base de datos";
-            });
-            if (!this.usuario.password) this.resultado.password = "Ingrese un password";
-            if (!this.usuario.email) this.resultado.email = "Ingrese un email";
-            this.axios.get('/usuarios/obtener/email/' + this.usuario.email).then(res => {
-                if (this.usuario.email === res.data.email) this.resultado.username = "El email ya existe en la base de datos";
-            });
-            if (!this.usuario.nombre) this.resultado.nombre = "Ingrese un nombre";
-            if (!this.usuario.apellido) this.resultado.apellido = "Ingrese un apellido";
-            if (!this.usuario.rol) this.resultado.rol = "Ingrese un rol";
+    registrarUsuario() {
+      this.resultado.username = null;
+      this.resultado.passowrd = null;
+      this.resultado.email = null;
+      this.resultado.nombre = null;
+      this.resultado.apellido = null;
+      this.resultado.rol = null;
+      if (!this.usuario.username) this.resultado.username = "Ingrese un username";
+      this.axios.get("/usuarios/obtener/username/" + this.usuario.username).then(res => {
+        if (this.usuario.username === res.data.username) this.resultado.username = "El username ya existe en la base de datos";
+      });
+      if (!this.usuario.password) this.resultado.password = "Ingrese un password";
+      if (!this.usuario.email) this.resultado.email = "Ingrese un email";
+      this.axios.get("/usuarios/obtener/email/" + this.usuario.email).then(res => {
+        if (this.usuario.email === res.data.email) this.resultado.username = "El email ya existe en la base de datos";
+      });
+      if (!this.usuario.nombre) this.resultado.nombre = "Ingrese un nombre";
+      if (!this.usuario.apellido) this.resultado.apellido = "Ingrese un apellido";
+      if (!this.usuario.rol) this.resultado.rol = "Ingrese un rol";
 
-            if (!this.resultado.username && !this.resultado.passowrd && !this.resultado.email && !this.resultado.nombre && !this.resultado.nombre && !this.resultado.apellido && !this.resultado.rol) {
-                this.axios.post('/usuarios/registrar', this.usuario).then(res => this.$router.push({ name: 'ConectarUsuario' })).catch(err => console.log(err));
-            }
-        }
+      if (!this.resultado.username && !this.resultado.passowrd && !this.resultado.email && !this.resultado.nombre && !this.resultado.nombre && !this.resultado.apellido && !this.resultado.rol) {
+        this.axios.post("/usuarios/registrar", this.usuario).then(res => this.$router.push({ name: "ConectarUsuario" })).catch(err => console.log(err));
+      }
     }
+  }
 });
 
 /***/ }),
@@ -4064,44 +4064,44 @@ module.exports = Cancel;
 //
 
 /* harmony default export */ __webpack_exports__["a"] = ({
-    data() {
-        return {
-            usuario: {},
-            resultado: {
-                username: null,
-                password: null,
-                general: null
-            }
-        };
+  data() {
+    return {
+      usuario: {},
+      resultado: {
+        username: null,
+        password: null,
+        general: null
+      }
+    };
+  },
+  created() {
+    this.validarConexion();
+  },
+  methods: {
+    validarConexion() {
+      if (this.$session.exists()) this.$router.push({ name: "MostrarProducto" });
+      console.log(this.$session);
     },
-    created() {
-        this.validarConexion();
-    },
-    methods: {
-        validarConexion() {
-            if (this.$session.exists()) this.$router.push({ name: 'MostrarProducto' });
-            console.log(this.$session);
-        },
-        conectarUsuario() {
-            this.resultado.username = null;
-            this.resultado.password = null;
-            this.resultado.general = null;
-            if (!this.usuario.username) this.resultado.username = "Ingrese un username";
-            if (!this.usuario.password) this.resultado.password = "Ingrese un password";
-            if (!this.resultado.username && !this.resultado.password) {
-                this.axios.post('/usuarios/conectar', this.usuario).then(res => {
-                    if (res.data.error !== "200") {
-                        this.resultado.general = "La password o el username es incorrecto";
-                        return;
-                    }
-                    this.$session.start();
-                    this.$session.set('id', res.data.resultado);
-                    this.$bus.$emit('actualizarSesion', true);
-                    this.$router.push({ name: 'MostrarProducto' });
-                }).catch(err => console.log(err));
-            }
-        }
+    conectarUsuario() {
+      this.resultado.username = null;
+      this.resultado.password = null;
+      this.resultado.general = null;
+      if (!this.usuario.username) this.resultado.username = "Ingrese un username";
+      if (!this.usuario.password) this.resultado.password = "Ingrese un password";
+      if (!this.resultado.username && !this.resultado.password) {
+        this.axios.post("/usuarios/conectar", this.usuario).then(res => {
+          if (res.data.error !== "200") {
+            this.resultado.general = "La password o el username es incorrecto";
+            return;
+          }
+          this.$session.start();
+          this.$session.set("id", res.data.resultado);
+          this.$bus.$emit("actualizarSesion", true);
+          this.$router.push({ name: "MostrarProducto" });
+        }).catch(err => console.log(err));
+      }
     }
+  }
 });
 
 /***/ }),
@@ -4116,20 +4116,20 @@ module.exports = Cancel;
 //
 
 /* harmony default export */ __webpack_exports__["a"] = ({
-    created() {
-        this.desconectarUsuario();
-    },
-    methods: {
-        desconectarUsuario() {
-            this.$session.destroy();
-            this.axios.get('/usuarios/desconectar').then(res => {
-                console.log(res);
-                this.$session.destroy();
-                this.$bus.$emit('actualizarSesion', false);
-                this.$router.push({ name: 'ConectarUsuario' });
-            }).catch(err => console.log(err));
-        }
+  created() {
+    this.desconectarUsuario();
+  },
+  methods: {
+    desconectarUsuario() {
+      this.$session.destroy();
+      this.axios.get("/usuarios/desconectar").then(res => {
+        console.log(res);
+        this.$session.destroy();
+        this.$bus.$emit("actualizarSesion", false);
+        this.$router.push({ name: "ConectarUsuario" });
+      }).catch(err => console.log(err));
     }
+  }
 });
 
 /***/ }),
@@ -4164,7 +4164,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */].use(__WEBPACK_IMPORTED_MODU
 __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */].use(__WEBPACK_IMPORTED_MODULE_4_vue_session___default.a);
 __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */].use(__WEBPACK_IMPORTED_MODULE_7__plugins_event_bus__["a" /* default */]);
 
-new __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */](__WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */].util.extend({ router: __WEBPACK_IMPORTED_MODULE_6__rutas__["a" /* default */] }, __WEBPACK_IMPORTED_MODULE_5__App_vue__["a" /* default */])).$mount('#app');
+new __WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */](__WEBPACK_IMPORTED_MODULE_0_vue__["a" /* default */].util.extend({ router: __WEBPACK_IMPORTED_MODULE_6__rutas__["a" /* default */] }, __WEBPACK_IMPORTED_MODULE_5__App_vue__["a" /* default */])).$mount("#app");
 
 /***/ }),
 /* 20 */
@@ -13716,35 +13716,35 @@ if (false) {
 
 
 const routes = [{
-  name: 'MostrarProducto',
-  path: '/productos/ver',
+  name: "MostrarProducto",
+  path: "/productos/ver",
   component: __WEBPACK_IMPORTED_MODULE_2__componentes_rutas_MostrarProducto_vue__["a" /* default */]
 }, {
-  name: 'CrearProducto',
-  path: '/producto/crear',
+  name: "CrearProducto",
+  path: "/producto/crear",
   component: __WEBPACK_IMPORTED_MODULE_1__componentes_rutas_CrearProducto_vue__["a" /* default */]
 }, {
-  name: 'EditarProducto',
-  path: '/producto/editar/:id',
+  name: "EditarProducto",
+  path: "/producto/editar/:id",
   component: __WEBPACK_IMPORTED_MODULE_3__componentes_rutas_EditarProducto_vue__["a" /* default */]
 }, {
-  name: 'RegistrarUsuario',
-  path: '/usuario/registrar',
+  name: "RegistrarUsuario",
+  path: "/usuario/registrar",
   component: __WEBPACK_IMPORTED_MODULE_4__componentes_rutas_RegistrarUsuario_vue__["a" /* default */]
 }, {
-  name: 'ConectarUsuario',
-  path: '/',
+  name: "ConectarUsuario",
+  path: "/",
   component: __WEBPACK_IMPORTED_MODULE_5__componentes_rutas_ConectarUsuario_vue__["a" /* default */]
 }, {
-  name: 'DesconectarUsuario',
-  path: '/usuario/desconectar',
+  name: "DesconectarUsuario",
+  path: "/usuario/desconectar",
   component: __WEBPACK_IMPORTED_MODULE_6__componentes_rutas_DesconectarUsuario_vue__["a" /* default */]
 }, {
-  path: '*',
+  path: "*",
   component: __WEBPACK_IMPORTED_MODULE_5__componentes_rutas_ConectarUsuario_vue__["a" /* default */]
 }];
 
-/* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({ mode: 'history', routes: routes }));
+/* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({ mode: "history", routes: routes }));
 
 /***/ }),
 /* 49 */
@@ -15112,7 +15112,7 @@ if (false) {
 const eventBus = {};
 
 eventBus.install = function (Vue) {
-    Vue.prototype.$bus = new Vue();
+  Vue.prototype.$bus = new Vue();
 };
 
 /* harmony default export */ __webpack_exports__["a"] = (eventBus);

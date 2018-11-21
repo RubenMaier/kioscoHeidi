@@ -1,5 +1,5 @@
-module.exports = (server) => {
-    /*
+module.exports = server => {
+  /*
     server.use((req, res, next) => {
         var err = new Error('Archivo no encontrado');
         err.status = 404;
@@ -12,4 +12,4 @@ module.exports = (server) => {
     });
 
     */
-}
+};

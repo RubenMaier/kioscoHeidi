@@ -23,15 +23,15 @@
 
 <script>
 export default {
-    data() {
-        return {
-            sesionIniciada: false
-        }
-    },
-    created () {
-        this.$bus.$on('actualizarSesion', (valor) => {
-            this.sesionIniciada = valor
-        })
-    }
-}
+  data() {
+    return {
+      sesionIniciada: false
+    };
+  },
+  created() {
+    this.$bus.$on("actualizarSesion", valor => {
+      this.sesionIniciada = valor;
+    });
+  }
+};
 </script>

@@ -24,34 +24,39 @@
 
 <script>
 export default {
-    data() {
-        return {
-            producto: {},
-            resultado: null,
-            alerta: false,
-            alertaClass: "alert alert-warning"
-        }
+  data() {
+    return {
+      producto: {},
+      resultado: null,
+      alerta: false,
+      alertaClass: "alert alert-warning"
+    };
+  },
+  created() {
+    this.obtenerProducto();
+  },
+  methods: {
+    obtenerProducto() {
+      this.axios
+        .get("/productos/obtener/" + this.$route.params.id)
+        .then(res => {
+          this.producto = res.data;
+        })
+        .catch(err => console.log(err));
     },
-    created() {
-        this.obtenerProducto();
-    },
-    methods: {
-        obtenerProducto() {
-            this.axios.get('/productos/obtener/' + this.$route.params.id)
-                .then(res => {
-                    this.producto = res.data;
-                })
-                .catch(err => console.log(err));
-        },
-        actualizarProducto() {
-            this.axios.put('/productos/actualizar/' + this.$route.params.id, this.producto)
-                .then(res => {
-                    this.alerta = true;
-                    this.alertaClass = "alert alert-success";
-                    this.resultado = "Producto de nombre " + this.producto.nombre + " actualizado con exito!"
-                })
-                .catch(err => console.log(err));
-        }
+    actualizarProducto() {
+      this.axios
+        .put("/productos/actualizar/" + this.$route.params.id, this.producto)
+        .then(res => {
+          this.alerta = true;
+          this.alertaClass = "alert alert-success";
+          this.resultado =
+            "Producto de nombre " +
+            this.producto.nombre +
+            " actualizado con exito!";
+        })
+        .catch(err => console.log(err));
     }
-}
+  }
+};
 </script> 

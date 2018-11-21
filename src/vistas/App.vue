@@ -6,11 +6,11 @@
 </template>
 
 <script>
-import Navegador from './componentes/tema/Navegador.vue'
+import Navegador from "./componentes/tema/Navegador.vue";
 
 export default {
-    components: {
-        Navegador
-    }
-}
-</script> 
+  components: {
+    Navegador
+  }
+};
+</script>
